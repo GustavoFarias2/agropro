@@ -1,6 +1,6 @@
 'use strict'
 
-class Auth {
+class AuthSession {
 
   get rules () {
 
@@ -13,4 +13,4 @@ class Auth {
   
 }
 
-module.exports = Auth
+module.exports = AuthSession
