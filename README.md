@@ -2,6 +2,8 @@
   Agropro
 </h1>
 
+---
+
 ## ⚡ Stack
 
 - Frontend: ReactJs with Redux
@@ -17,10 +19,12 @@
       Run web and server
 
       default urls
-        web: localhost:3000
-        server: localhost:3333
-        database: localhost:5432
 
+## ⚙️ Default urls
+
+- web: localhost:3000
+- server: localhost:3333
+- database: localhost:5432
 
 ---
 
