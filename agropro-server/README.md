@@ -1,28 +1,24 @@
-# Adonis API application
+<h1 align='center'>
+  Agropro Server
+</h1>
 
-This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
+<h3 align='center'>
+with AdonisJs
+</h3>
 
-1. Bodyparser
-2. Authentication
-3. CORS
-4. Lucid ORM
-5. Migrations and seeds
+---
 
-## Setup
+## 🔧 How to use
 
-Use the adonis command to install the blueprint
+    run yarn to install the dependences
 
-```bash
-adonis new yardstick --api-only
-```
-
-or manually clone the repo and then run `npm install`.
+    run 'adonis serve' to start the server
 
 
-### Migrations
+---
+<br>
 
-Run the following command to run startup migrations.
 
-```js
-adonis migration:run
-```
+Wanna help? You can send mensages to me on my email!
+
+[![Gmail Badge](https://img.shields.io/badge/-gustavo.fariassiqueira@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:gustavo.fariassiqueira@gmail.com)](mailto:gustavo.fariassiqueira@gmail.com)
