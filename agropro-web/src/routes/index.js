@@ -1,12 +1,12 @@
 import React from 'react';
 
 // import Auth from '../pages/auth';
-import App from '../pages/app';
+import AppRoutes from './app.routes';
 
 const Routes = () => {
 
   return (
-    <App />
+    <AppRoutes />
     // <Auth />
   )
 
