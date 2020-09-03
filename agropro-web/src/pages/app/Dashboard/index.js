@@ -18,7 +18,7 @@ const App = () => {
     <Row
       justify='center'
       align='middle'
-      style={{ padding: 20, paddingTop: 50 }}
+      style={{ padding: 20, paddingTop: 30 }}
     >
       <Col
         md={12}
