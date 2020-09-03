@@ -7,33 +7,13 @@ import {
   Table
 } from 'antd';
 
+import tableColumns from './tableColumns';
 
-const Produtores = () => {
+const Produtores = ({ setRoute }) => {
 
-  const columns = [
-    {
-      title: 'Cpf / Cnpj',
-      dataIndex: 'cpfCnpj',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.cpfCnpj - b.cpfCnpj
-    },
-    {
-      title: 'Nome',
-      dataIndex: 'nome',
-      sorter: (a, b) => a.name.length - b.name.length
-    }
-  ];
+  const data = [{ id: 1, cpfCnpj: 123123124, nome: 'Guzin', fazendas: [] }, { id: 2, cpfCnpj: 223123124, nome: 'Guizin', fazendas: [] }, { id: 3, cpfCnpj: 323123124, nome: 'Jozin', fazendas: [] },]
 
-  const data = [
-    {
-      id: 1,
-      cpfCnpj: 123123124,
-      nome: 'Guzin',
-      fazendas: [
-     
-      ]
-    }
-  ]
+  const handleAdicionarProdutor = () => setRoute('AdicionarProdutor');
 
   return (
     <Row
@@ -41,28 +21,37 @@ const Produtores = () => {
       align='middle'
       style={{ padding: 20, paddingTop: 50 }}
     >
-      <Col
-        md={22}
-        sm={24}
-      >
+      <Col span={24}>
 
-        <Card title='Produtores'>
+        <Card
+          title='Produtores'
+          bodyStyle={{ paddingRight: 0, paddingLeft: 0 }}
+          extra={
+            <span
+              onClick={() => handleAdicionarProdutor()}
+              style={{ cursor: 'pointer', color: '#1890ff' }}
+            >
+              Adicionar Produtor
+            </span>
+          }
+        >
 
           <Table
             rowKey={(row) => row.id}
-          
-            columns={columns}
+
+            columns={tableColumns}
             dataSource={data}
+
+            pagination={{ position: ['bottomCenter'] }}
 
             expandable={{
               expandedRowRender: () => (
                 <Table
-                  columns={columns}
+                  columns={tableColumns}
                 />
               ),
               rowExpandable: (row) => row.fazendas.length !== 0,
             }}
-
           />
 
         </Card>

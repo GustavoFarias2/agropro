@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 
 import Dashboard from '../pages/app/Dashboard';
-import Produtores from '../pages/app/Produtores';
+import ProdutoresRoutes from './produtores.routes';
 
 const AppRoutes = () => {
 
@@ -22,7 +22,7 @@ const AppRoutes = () => {
         setRoute={setRoute}
       />
 
-      {route === 'Dashboard' ? <Dashboard /> : <Produtores />}
+      {route === 'Dashboard' ? <Dashboard /> : <ProdutoresRoutes />}
 
     </>
   )

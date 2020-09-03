@@ -51,12 +51,12 @@ const Header = ({ routes = [], setRoute }) => {
           md={2}
           style={{ textAlign: 'right' }}
         >
-          <a
-            href='#'
+          <span
             onClick={() => handleLogout()}
+            style={{ cursor: 'pointer', color: '#1890ff' }}
           >
             Logout
-          </a>
+          </span>
         </Col>
 
       </Row>
