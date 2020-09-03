@@ -12,7 +12,7 @@ const DashboardImages = () => {
   return (
 
     <Row
-      justify='space-between'
+      justify='center'
       align='middle'
       style={{ marginBottom: 10 }}
     >

@@ -8,8 +8,8 @@ const DashboardImage = ({ image, value }) => (
     style={{
       display: 'flex',
       flexDirection: 'column',
-      paddingLeft: 80,
-      paddingRight: 80,
+      paddingLeft: 100,
+      paddingRight: 100,
       marginBottom: 20,
       textAlign: 'center'
     }}
