@@ -26,6 +26,7 @@ const Produtores = () => {
 
   const data = [
     {
+      id: 1,
       cpfCnpj: 123123124,
       nome: 'Guzin',
       fazendas: []
@@ -46,6 +47,8 @@ const Produtores = () => {
         <Card title='Produtores'>
 
           <Table
+            rowKey={(row) => row.id}
+          
             columns={columns}
             dataSource={data}
 
