@@ -9,7 +9,9 @@ import {
 
 const Header = ({ routes = [], setRoute }) => {
 
-  const handleRouteChange = (route) => setRoute(route)
+  const handleRouteChange = (route) => setRoute(route);
+
+  const handleLogout = () => { }
 
   return (
 
@@ -22,6 +24,7 @@ const Header = ({ routes = [], setRoute }) => {
         <Col
           xs={4}
           sm={4}
+          md={2}
         >
           <span style={{ fontSize: 24, color: '#e1e1e1', marginRight: 30 }}>
             Agropro
@@ -31,8 +34,7 @@ const Header = ({ routes = [], setRoute }) => {
         <Col
           xs={2}
           sm={2}
-          md={22}
-          flex='auto'
+          md={20}
         >
           <Menu theme="dark" mode='horizontal'>
             {routes.map((route, i) =>
@@ -46,12 +48,15 @@ const Header = ({ routes = [], setRoute }) => {
         <Col
           xs={18}
           sm={18}
+          md={2}
+          style={{ textAlign: 'right' }}
         >
-          <div style={{ textAlign: 'right' }}>
-            <a href='#'>
-              Logout
-            </a>
-          </div>
+          <a
+            href='#'
+            onClick={() => handleLogout()}
+          >
+            Logout
+          </a>
         </Col>
 
       </Row>

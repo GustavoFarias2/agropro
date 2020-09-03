@@ -29,7 +29,9 @@ const Produtores = () => {
       id: 1,
       cpfCnpj: 123123124,
       nome: 'Guzin',
-      fazendas: []
+      fazendas: [
+     
+      ]
     }
   ]
 
