@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 
 import api from '../../services/api';
 
+import { useDispatch } from 'react-redux';
+import { tokenActions } from '../../reducers/token';
+
 import {
   Row,
   Col,
@@ -19,17 +22,16 @@ const Auth = () => {
 
   const [title, setTitle] = useState('Login');
 
+  const dispatch = useDispatch();
+
   const handleButtonClick = async (values) => {
 
     if (title === 'Login') {
 
       const response = await api.post('auth', values);
 
-      if (response.status === 200) {
-
-        console.log('logged')
-
-      }
+      if (response.status === 200)
+        dispatch(tokenActions.LOGIN(response.data.token));
 
     }
     else {

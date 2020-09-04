@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { useDispatch } from 'react-redux';
+import { tokenActions } from '../../reducers/token';
+
 import {
   Row,
   Col,
@@ -9,9 +12,11 @@ import {
 
 const Header = ({ routes = [], setRoute }) => {
 
+  const dispatch = useDispatch();
+
   const handleRouteChange = (route) => setRoute(route);
 
-  const handleLogout = () => { }
+  const handleLogout = () => dispatch(tokenActions.LOGOUT());
 
   return (
 

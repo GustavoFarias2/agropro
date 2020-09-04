@@ -1,14 +1,15 @@
 import React from 'react';
 
-// import Auth from '../pages/auth';
+import { useSelector } from 'react-redux';
+
+import Auth from '../pages/auth';
 import AppRoutes from './app.routes';
 
 const Routes = () => {
 
-  return (
-    <AppRoutes />
-    // <Auth />
-  )
+  const token = useSelector((state) => state.token);
+
+  return token ? <AppRoutes /> : <Auth />
 
 }
 

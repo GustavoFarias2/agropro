@@ -1,27 +1,23 @@
 
-export const token = {
-  LOGIN: {
-    action: (token) => ({
-      type: 'LOGIN',
-      payload: {
-        token
-      }
-    }),
-    fun: (payload) => payload.token,
-  },
-  LOGOUT: {
-    action: () => ({
-      type: 'LOGOUT'
-    }),
-    fun: () => null
-  }
+const tokenFunction = {
+  LOGIN: (payload) => payload.token,
+  LOGOUT: () => null
+}
+
+export const tokenActions = {
+  LOGIN: (token) => ({
+    type: 'LOGIN',
+    payload: {
+      token
+    }
+  }),
+  LOGOUT: () => ({
+    type: 'LOGOUT'
+  })
 }
 
 export function tokenReducer(state = null, action) {
 
-  if (token[action.type])
-    return token[action.type].fun(action.payload)
-
-  return state
+  return tokenFunction[action.type] ? tokenFunction[action.type](action.payload) : state;
 
 }
