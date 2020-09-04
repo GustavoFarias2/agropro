@@ -22,17 +22,17 @@ const fazendaForm = ({ fazenda, i, handleRemoverFazenda }) => {
           <Input />
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + fazenda, 'endereco', 'cidade']} label='Cidade' rules={[{ required: true }]}>
+        <Form.Item name={['fazenda ' + fazenda, 'cidade']} label='Cidade' rules={[{ required: true }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + fazenda, 'endereco', 'estado']} label='Estado' rules={[{ required: true }]}>
+        <Form.Item name={['fazenda ' + fazenda, 'estado']} label='Estado' rules={[{ required: true }]}>
           <Select placeholder='Estado'>
             {estados.map((estado, i) => <Select.Option key={i} name={estado.toLocaleLowerCase()}>{estado}</Select.Option>)}
           </Select>
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + fazenda, 'endereco', 'culturas']} label='Culturas' rules={[{ required: true }]}>
+        <Form.Item name={['fazenda ' + fazenda, 'culturas']} label='Culturas' rules={[{ required: true }]}>
           <Input />
         </Form.Item>
 

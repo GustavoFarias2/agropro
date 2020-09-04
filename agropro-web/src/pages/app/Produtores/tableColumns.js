@@ -41,9 +41,9 @@ const tableColumns = (onEdit, onDelete) => [
   {
     width: 150,
     title: 'Cpf / Cnpj',
-    dataIndex: 'cpfCnpj',
+    dataIndex: 'cpf_cnpj',
     defaultSortOrder: 'descend',
-    sorter: (a, b) => a.cpfCnpj - b.cpfCnpj
+    sorter: (a, b) => a.cpf_cnpj - b.cpf_cnpj
   },
   {
     title: 'Nome',

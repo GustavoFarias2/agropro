@@ -105,9 +105,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
           <Form
             form={form}
             layout="vertical"
-
             initialValues={produtor && produtor}
-
             onFinish={handleCofirm}
           >
 
@@ -117,6 +115,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
                 <Form.Item name='cpf_cnpj' label='Cpf / Cpnj' rules={[{ required: true }]}>
                   <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
+
                 <Form.Item name='nome' label='Nome' rules={[{ required: true }]}>
                   <Input />
                 </Form.Item>
