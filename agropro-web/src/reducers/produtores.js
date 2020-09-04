@@ -1,5 +1,5 @@
 
-const produtoresFunction = {
+const produtoresFunctions = {
 
   LOAD_PRODUTORES: (_, payload) =>
     payload.produtores,
@@ -12,6 +12,14 @@ const produtoresFunction = {
 
   REMOVE_PRODUTOR: (state, payload) =>
     state.filter((produtor) => produtor.id !== payload.produtor.id),
+
+  REMOVE_FAZENDA: (state, payload) => {
+    const produtorFiltered = state.filter((produtor) => produtor.id === payload.fazenda.produtor_id)[0];
+
+    const fazendasWithoutRemoved = produtorFiltered.fazendas.filter((fazenda) => fazenda.id !== payload.fazenda.id);
+
+    return state.map((produtor) => produtor.id !== produtorFiltered.id ? produtor : { ...produtor, ...{ fazendas: fazendasWithoutRemoved } });
+  },
 
 }
 
@@ -43,8 +51,15 @@ export const produtoresActions = {
     payload: {
       produtor
     }
+  }),
+
+  REMOVE_FAZENDA: (fazenda) => ({
+    type: 'REMOVE_FAZENDA',
+    payload: {
+      fazenda
+    }
   })
 
 }
 
-export const produtoresReducer = (state = [], action) => produtoresFunction[action.type] ? produtoresFunction[action.type](state, action.payload) : state;
+export const produtoresReducer = (state = [], action) => produtoresFunctions[action.type] ? produtoresFunctions[action.type](state, action.payload) : state;

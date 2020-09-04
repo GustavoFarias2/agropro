@@ -17,7 +17,7 @@ const tableColumns = (onEdit, onDelete) => [
 
         <EditOutlined
           style={{ fontSize: 20, cursor: 'pointer' }}
-          onClick={() => onEdit(row)}
+          onClick={() => onEdit(row.produtor_id)}
         />
 
         <Popconfirm
@@ -44,6 +44,10 @@ const tableColumns = (onEdit, onDelete) => [
   {
     title: 'Nome',
     dataIndex: 'nome'
+  },
+  {
+    title: 'Culturas',
+    dataIndex: 'culturas'
   },
   {
     title: 'Área total',

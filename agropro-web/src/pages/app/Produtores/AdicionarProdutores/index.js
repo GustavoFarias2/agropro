@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import api from '../../../../services/api';
 
@@ -26,7 +26,22 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   const [form] = Form.useForm();
 
-  const [fazendas, setFazendas] = useState([0]);
+  const [fazendas, setFazendas] = useState(produtor ? produtor.fazendas : [0]);
+
+  useEffect(() => {
+
+    if (produtor) 
+      produtor.fazendas.forEach((fazenda, i) => {
+
+        form.setFields({
+          name: 'fazenda ' + i,
+          values: fazenda
+        })
+
+      });
+    
+
+  }, [produtor]);
 
   const handleVoltar = () => {
 

@@ -14,7 +14,7 @@ const tableColumns = (onEdit, onDelete) => [
 
         <EditOutlined
           style={{ fontSize: 20, cursor: 'pointer' }}
-          onClick={() => onEdit(row)}
+          onClick={() => onEdit(row.id)}
         />
 
         <Popconfirm

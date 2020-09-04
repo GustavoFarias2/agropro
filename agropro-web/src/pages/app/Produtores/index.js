@@ -17,10 +17,7 @@ import tableFazendaColumns from './tableFazendaColumns';
 
 const Produtores = ({ setRoute, setFormId }) => {
 
-  const produtores = useSelector((state) => {
-    console.log(state.produtores)
-    return state.produtores
-  });
+  const produtores = useSelector((state) => state.produtores);
 
   const dispatch = useDispatch();
 
@@ -41,9 +38,9 @@ const Produtores = ({ setRoute, setFormId }) => {
 
   const routeToForm = () => setRoute('AdicionarProdutor');
 
-  const handleEditProdutor = (row) => {
+  const handleEditProdutor = (id) => {
 
-    setFormId(row.id);
+    setFormId(id);
 
     routeToForm();
 
@@ -56,10 +53,14 @@ const Produtores = ({ setRoute, setFormId }) => {
     if (response.status === 204)
       dispatch(produtoresActions.REMOVE_PRODUTOR(row))
 
-
   }
 
-  const handleDeleteFazenda = () => {
+  const handleDeleteFazenda = async (row) => {
+
+    const response = await api.delete('fazenda/' + row.id);
+
+    if (response.status === 204)
+      dispatch(produtoresActions.REMOVE_FAZENDA(row))
 
   }
 
