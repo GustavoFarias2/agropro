@@ -114,6 +114,8 @@ const AdicionarProdutores = ({ setRoute }) => {
                   />
                 </Col>
 
+                <div style={{ border: '1px solid #f0f0f0', width: '100%' }}></div>
+
               </Row>
             ))}
 
