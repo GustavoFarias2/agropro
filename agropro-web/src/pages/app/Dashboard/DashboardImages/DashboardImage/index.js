@@ -32,11 +32,7 @@ const DashboardImage = ({ label, image, value }) => (
       }}
     />
 
-    <span style={{
-      marginTop: '8px',
-      fontSize: 16,
-      fontWeight: 500
-    }}>
+    <span style={{ fontSize: 16 }}>
       {value} ha
     </span>
 
