@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { Provider } from 'react-redux';
+import store from './reducers';
+
 import { Layout } from 'antd';
 
 import Routes from './routes';
@@ -10,19 +13,20 @@ const Auth = () => {
 
   return (
 
-    <Layout
-      className='layout'
-      style={{ height: '100%' }}
-    >
+    <Provider store={store}>
 
-      <Content>
+      <Layout
+        className='layout'
+        style={{ height: '100%' }}
+      >
+        <Content>
 
-        <Routes />
+          <Routes />
 
-      </Content>
+        </Content>
+      </Layout>
 
-    </Layout>
-
+    </Provider>
   )
 
 }
