@@ -14,6 +14,7 @@ class FazendaSchema extends Schema {
       table.float('area').notNullable()
       table.float('area_consolidada').notNullable()
       table.float('area_legal').notNullable()
+      table.string('culturas').notNullable()
       table.timestamps()
     })
   }

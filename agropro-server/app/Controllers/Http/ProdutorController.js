@@ -6,6 +6,9 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Produtor = use('App/Models/Produtor')
 
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const Fazenda = use('App/Models/Fazenda')
+
 /**
  * Resourceful controller for interacting with produtors
  */
@@ -37,29 +40,31 @@ class ProdutorController {
    */
   async store({ request, response, auth }) {
 
-    const { cpf_cnpj, nome } = request.only([
-      'cpf_cnpj',
-      'nome',
+    const { produtor, fazendas } = request.only([
+      'produtor',
+      'fazendas',
     ])
 
     const checkIfExist = await Produtor
       .query()
-      .where('nome', nome)
+      .where('nome', produtor.nome)
       .where('user_id', auth.user.id)
       .first()
 
     if (checkIfExist)
       return response.status(303).send()
 
-    const produtor = await Produtor.create({
-      cpf_cnpj,
-      nome,
-      user_id: auth.user.id
+    const createdProdutor = await Produtor.create({
+      user_id: auth.user.id,
+      cpf_cnpj: produtor.cpf_cnpj,
+      nome: produtor.nome
     })
+
+    await Fazenda.createMany(fazendas);
 
     const produtorWithFazendas = await Produtor
       .query()
-      .where('id', produtor.id)
+      .where('id', createdProdutor.id)
       .with('fazendas')
       .first()
 
