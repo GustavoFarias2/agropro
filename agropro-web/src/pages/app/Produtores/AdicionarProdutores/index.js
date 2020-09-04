@@ -5,10 +5,13 @@ import {
   Col,
   Card,
   Form,
-  Input
+  Input,
+  Select
 } from 'antd';
 
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+
+import estados from '../../../../assets/estados';
 
 const AdicionarProdutores = ({ setRoute }) => {
 
@@ -86,7 +89,9 @@ const AdicionarProdutores = ({ setRoute }) => {
                     <Input />
                   </Form.Item>
                   <Form.Item name={['fazenda ' + fazenda, 'endereco', 'estado']} label='Estado' rules={[{ required: true }]}>
-                    <Input />
+                    <Select placeholder='Estado'>
+                      {estados.map((estado, i) => <Select.Option key={i} name={estado.toLocaleLowerCase()}>{estado}</Select.Option>)}
+                    </Select>
                   </Form.Item>
                   <Form.Item name={['fazenda ' + fazenda, 'endereco', 'culturas']} label='Culturas' rules={[{ required: true }]}>
                     <Input />
