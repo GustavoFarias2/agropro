@@ -60,7 +60,9 @@ class ProdutorController {
       nome: produtor.nome
     })
 
-    await Fazenda.createMany(fazendas);
+    const fazendasWithProdutorId = await fazendas.map((fazenda) => ({ ...fazenda, ...{ produtor_id: createdProdutor.id } }))
+
+    await Fazenda.createMany(fazendasWithProdutorId)
 
     const produtorWithFazendas = await Produtor
       .query()

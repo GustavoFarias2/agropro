@@ -17,7 +17,10 @@ import tableFazendaColumns from './tableFazendaColumns';
 
 const Produtores = ({ setRoute, setFormId }) => {
 
-  const produtores = useSelector((state) => state.produtores);
+  const produtores = useSelector((state) => {
+    console.log(state.produtores)
+    return state.produtores
+  });
 
   const dispatch = useDispatch();
 
