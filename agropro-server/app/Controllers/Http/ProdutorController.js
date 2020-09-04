@@ -20,6 +20,7 @@ class ProdutorController {
     const produtors = await Produtor
       .query()
       .where('user_id', auth.user.id)
+      .with('fazendas')
       .fetch()
 
     return produtors
@@ -56,7 +57,13 @@ class ProdutorController {
       user_id: auth.user.id
     })
 
-    return produtor
+    const produtorWithFazendas = await Produtor
+      .query()
+      .where('id', produtor.id)
+      .with('fazendas')
+      .first()
+
+    return produtorWithFazendas
 
   }
 
