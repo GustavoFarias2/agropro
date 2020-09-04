@@ -49,13 +49,20 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   const handleCofirm = async (values) => {
 
+    const fazendas = Object.entries(values)
+      .filter(([key, value]) => key.split('fazenda').length > 1)
+      .map((fazenda) => fazenda[1]);
+
     const produtor = {
       cpf_cnpj: values.cpf_cnpj,
       nome: values.nome
     }
 
     if (!formId) {
-      const response = await api.post('produtor', produtor);
+      const response = await api.post('produtor', {
+        produtor,
+        fazendas
+      });
 
       if (response.status === 200) {
         dispatch(produtoresActions.ADD_PRODUTOR(response.data));
@@ -136,8 +143,9 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
             {fazendas.map((fazenda, i) =>
               <FazendaForm
+                key={i}
+                index={i}
                 fazenda={fazenda}
-                i={i}
                 handleRemoverFazenda={handleRemoverFazenda}
               />)}
 

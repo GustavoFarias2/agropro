@@ -12,10 +12,10 @@ import { MinusCircleOutlined } from '@ant-design/icons';
 
 import estados from '../../../../../assets/estados';
 
-const fazendaForm = ({ fazenda, i, handleRemoverFazenda }) => {
+const fazendaForm = ({ fazenda, index, handleRemoverFazenda }) => {
 
   return (
-    <Row key={i} style={{ marginTop: 25 }}>
+    <Row style={{ marginTop: 25 }}>
       <Col xs={24} sm={24} md={12} style={{ paddingRight: 20 }}>
 
         <Form.Item name={['fazenda ' + fazenda, 'nome']} label='Nome da Fazenda' rules={[{ required: true }]}>
@@ -52,7 +52,7 @@ const fazendaForm = ({ fazenda, i, handleRemoverFazenda }) => {
         </Form.Item>
 
         <MinusCircleOutlined
-          onClick={() => handleRemoverFazenda(i)}
+          onClick={() => handleRemoverFazenda(index)}
           style={{ fontSize: '22px', marginLeft: '10px', marginTop: '15px', cursor: 'pointer' }}
         />
 
