@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import store from '../reducers';
+import { tokenActions } from '../reducers/token';
 
 const api = axios.create({
   baseURL: 'http://localhost:3333/'
@@ -20,21 +21,18 @@ api.interceptors.request.use((config) => {
   else
     return config;
 
-}, error => {
+}, (error) => {
 
   Promise.reject(error);
 
 });
 
-api.interceptors.response.use((response) => {
+api.interceptors.response.use((response) => response, (error) => {
 
-  if (response.status === 401) {
+  if (error.response.status === 401)
+    store.dispatch(tokenActions.LOGOUT());
 
-    
-
-  }
-
-  return response
+  return Promise.reject(error);
 
 });
 

@@ -19,7 +19,7 @@ const App = () => {
 
     const getProdutores = async () => {
 
-      const response = await api.get('produtor');
+      await api.get('produtor');
 
     }
 
