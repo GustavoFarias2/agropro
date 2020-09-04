@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import api from '../../../services/api';
 
 import {
   Row,
@@ -12,6 +14,18 @@ import DashboardImages from './DashboardImages';
 import estados from '../../../assets/estados';
 
 const App = () => {
+
+  useEffect(() => {
+
+    const getProdutores = async () => {
+
+      const response = await api.get('produtor');
+
+    }
+
+    getProdutores();
+
+  }, []);
 
   return (
 

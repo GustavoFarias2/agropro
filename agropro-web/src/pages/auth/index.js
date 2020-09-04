@@ -30,7 +30,7 @@ const Auth = () => {
 
       const response = await api.post('auth', values);
 
-      if (response.status === 200)
+      if (response.status === 200)        
         dispatch(tokenActions.LOGIN(response.data.token));
 
     }
@@ -38,9 +38,8 @@ const Auth = () => {
 
       const response = await api.post('user', values);
 
-      if (response.status === 200) {
+      if (response.status === 200)
         setTitle('Login')
-      }
 
     }
 
@@ -67,10 +66,7 @@ const Auth = () => {
 
             <Form.Item style={{ marginTop: 20 }}>
 
-              <Button
-                type='primary'
-                htmlType='submit'
-              >
+              <Button type='primary' htmlType='submit'>
                 Submit
               </Button>
               <span

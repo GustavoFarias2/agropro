@@ -1,7 +1,6 @@
 
 const tokenFunction = {
   LOGIN: (payload) => payload.token,
-  LOGOUT: () => null
 }
 
 export const tokenActions = {
@@ -16,8 +15,4 @@ export const tokenActions = {
   })
 }
 
-export function tokenReducer(state = null, action) {
-
-  return tokenFunction[action.type] ? tokenFunction[action.type](action.payload) : state;
-
-}
+export const tokenReducer = (state = null, action) => tokenFunction[action.type] ? tokenFunction[action.type](action.payload) : state;
