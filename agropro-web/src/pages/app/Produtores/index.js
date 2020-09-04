@@ -34,7 +34,7 @@ const Produtores = ({ setRoute, setFormId }) => {
 
     getProdutores();
 
-  }, []);
+  }, [dispatch]);
 
   const routeToForm = () => setRoute('AdicionarProdutor');
 

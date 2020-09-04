@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import api from '../../../../services/api';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { produtoresActions } from '../../../../reducers/produtores';
 
 import {
@@ -20,6 +20,8 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import estados from '../../../../assets/estados';
 
 const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
+
+  const produtor = useSelector((state) => state.produtores.find((produtor) => produtor.id === formId));
 
   const dispatch = useDispatch();
 
@@ -53,14 +55,23 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
       nome: values.nome
     }
 
-    const response = await api.post('produtor', produtor);
+    if (!formId) {
+      const response = await api.post('produtor', produtor);
 
-    if (response.status === 200) {
+      if (response.status === 200) {
+        dispatch(produtoresActions.ADD_PRODUTOR(response.data));
 
-      dispatch(produtoresActions.ADD_PRODUTOR(response.data));
+        handleVoltar();
+      }
+    }
+    else {
+      const response = await api.put('produtor/' + formId, produtor);
 
-      setRoute('Produtores');
+      if (response.status === 200) {
+        dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
 
+        handleVoltar();
+      }
     }
 
   }
@@ -95,6 +106,9 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
           <Form
             form={form}
             layout="vertical"
+
+            initialValues={produtor && produtor}
+
             onFinish={handleCofirm}
           >
 
