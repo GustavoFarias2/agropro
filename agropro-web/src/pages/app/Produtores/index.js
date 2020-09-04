@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { produtoresActions } from '../../../reducers/produtores';
+import { useSelector, useDispatch } from 'react-redux';
+
+import api from '../../../services/api';
 
 import {
   Row,
@@ -12,9 +17,37 @@ import tableFazendaColumns from './tableFazendaColumns';
 
 const Produtores = ({ setRoute }) => {
 
-  const data = [{ id: 1, cpfCnpj: 123123124, nome: 'Guzin', fazendas: [{ id: 1, nome: 'Fazenda tal', area: 123123123, area_consolidade: 123213, area_legal: 12312 }, { id: 2, nome: 'Fazenda tal', area: 123123123, area_consolidade: 123213, area_legal: 12312 }, { id: 3, nome: 'Fazenda tal', area: 123123123, area_consolidade: 123213, area_legal: 12312 },] }, { id: 2, cpfCnpj: 223123124, nome: 'Guizin', fazendas: [] }, { id: 3, cpfCnpj: 323123124, nome: 'Jozin', fazendas: [] },]
+  const produtores = useSelector((state) => state.produtores);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+
+    const getProdutores = async () => {
+
+      const response = await api.get('produtor');
+
+      if (response.status === 200)
+        dispatch(produtoresActions.LOAD_PRODUTORES(response.data));
+
+    }
+
+    getProdutores();
+
+  }, []);
 
   const handleAdicionarProdutor = () => setRoute('AdicionarProdutor');
+
+  const handleDeleteProdutor = () => {
+
+    dispatch(produtoresActions.REMOVE_PRODUTOR({
+      id: 1,
+      cpfCnpj: 12312312,
+      nome: 'Guzin',
+      fazendas: []
+    }))
+
+  }
 
   return (
     <Row
@@ -40,8 +73,8 @@ const Produtores = ({ setRoute }) => {
           <Table
             rowKey={(row) => row.id}
 
-            columns={tableColumns}
-            dataSource={data}
+            columns={tableColumns(() => { }, handleDeleteProdutor)}
+            dataSource={produtores}
 
             scroll={{ x: true }}
 
@@ -55,7 +88,7 @@ const Produtores = ({ setRoute }) => {
                 <Table
                   rowKey={(row) => row.id}
 
-                  columns={tableFazendaColumns}
+                  columns={tableFazendaColumns(() => { }, () => { })}
                   dataSource={row.fazendas}
 
                   scroll

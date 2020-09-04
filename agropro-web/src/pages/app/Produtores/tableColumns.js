@@ -4,7 +4,7 @@ import { Popconfirm, Col } from 'antd';
 
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const tableColumns = [
+const tableColumns = (onEdit, onDelete) => [
   {
     title: 'Ações',
     key: 'actions',
@@ -12,7 +12,10 @@ const tableColumns = [
     render: () => (
       <Col style={{ textAlign: 'center' }}>
 
-        <EditOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
+        <EditOutlined
+          style={{ fontSize: 20, cursor: 'pointer' }}
+          onClick={() => onEdit()}
+        />
 
         <Popconfirm
           placement='topLeft'
@@ -21,6 +24,8 @@ const tableColumns = [
           okText="Sim"
           cancelText="Não"
           title="Você tem certeza que deseja apagar?"
+
+          onConfirm={() => onDelete()}
         >
           <DeleteOutlined
             style={{

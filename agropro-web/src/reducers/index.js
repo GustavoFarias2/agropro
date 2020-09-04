@@ -1,9 +1,11 @@
 import { createStore, combineReducers } from 'redux';
 
 import { tokenReducer } from './token';
+import { produtoresReducer } from './produtores';
 
 const appReducer = combineReducers({
-  token: tokenReducer
+  token: tokenReducer,
+  produtores: produtoresReducer
 })
 
 const rootReducer = (state, action) => {

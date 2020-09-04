@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 
+import api from '../../../../services/api';
+
+import { useDispatch } from 'react-redux';
+import { produtoresActions } from '../../../../reducers/produtores';
+
 import {
   Row,
   Col,
   Card,
   Form,
   Input,
+  InputNumber,
   Select
 } from 'antd';
 
@@ -14,6 +20,8 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import estados from '../../../../assets/estados';
 
 const AdicionarProdutores = ({ setRoute }) => {
+
+  const dispatch = useDispatch();
 
   const [form] = Form.useForm();
 
@@ -30,6 +38,27 @@ const AdicionarProdutores = ({ setRoute }) => {
 
   const handleRemoverFazenda = (i) => setFazendas(fazendas.filter((_, index) => i !== index));
 
+  const handleCofirm = async (values) => {
+
+    const produtor = {
+      cpf_cnpj: values.cpf_cnpj,
+      nome: values.nome
+    }
+
+    const response = await api.post('produtor', produtor);
+
+    console.log(response.data)
+
+    if (response.status === 200) {
+
+      dispatch(produtoresActions.ADD_PRODUTOR(response.data));
+
+      setRoute('Produtores');
+
+    }
+
+  }
+
   return (
     <Row
       justify='center'
@@ -41,24 +70,33 @@ const AdicionarProdutores = ({ setRoute }) => {
         <Card
           title='Adicionar um Produtor'
           extra={
-            <span
-              onClick={() => handleVoltar()}
-              style={{ cursor: 'pointer', color: '#1890ff' }}
-            >
-              Voltar
-            </span>}
+            <>
+              <span
+                onClick={() => handleVoltar()}
+                style={{ cursor: 'pointer', color: '#1890ff', marginRight: '15px' }}
+              >
+                voltar
+              </span>
+              <span
+                onClick={() => form.submit()}
+                style={{ cursor: 'pointer', fontWeight: 500, fontSize: '16px' }}
+              >
+                Confirmar
+              </span>
+            </>
+          }
         >
           <Form
             form={form}
             layout="vertical"
-          // onFinish={handleButtonClick}
+            onFinish={handleCofirm}
           >
 
             <Row>
               <Col xs={24} sm={24} md={8}>
 
-                <Form.Item name='cpfCnpj' label='Cpf / Cpnj' rules={[{ required: true }]}>
-                  <Input />
+                <Form.Item name='cpf_cnpj' label='Cpf / Cpnj' rules={[{ required: true }]}>
+                  <InputNumber style={{ width: '100%' }} />
                 </Form.Item>
                 <Form.Item name='nome' label='Nome' rules={[{ required: true }]}>
                   <Input />
