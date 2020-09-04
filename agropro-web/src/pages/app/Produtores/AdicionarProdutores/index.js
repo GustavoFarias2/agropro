@@ -38,23 +38,16 @@ const AdicionarProdutores = ({ setRoute }) => {
         <Card
           title='Adicionar um Produtor'
           extra={
-            <>
-              <span onClick={() => console.log(form.getFieldsValue())}>
-                teste
-              </span>
-              <span
-                onClick={() => handleVoltar()}
-                style={{ cursor: 'pointer', color: '#1890ff' }}
-              >
-                Voltar
-              </span>
-            </>
-          }
+            <span
+              onClick={() => handleVoltar()}
+              style={{ cursor: 'pointer', color: '#1890ff' }}
+            >
+              Voltar
+            </span>}
         >
           <Form
             form={form}
             layout="vertical"
-          // onValuesChange={handleChange}
           // onFinish={handleButtonClick}
           >
 
@@ -78,7 +71,7 @@ const AdicionarProdutores = ({ setRoute }) => {
 
               <PlusCircleOutlined
                 onClick={() => handleAdicionarFazenda()}
-                style={{ fontSize: '18px', marginLeft: '10px', cursor: 'pointer' }}
+                style={{ fontSize: '18px', marginLeft: '12px', cursor: 'pointer' }}
               />
             </Row>
 

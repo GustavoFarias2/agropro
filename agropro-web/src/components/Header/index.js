@@ -53,7 +53,7 @@ const Header = ({ routes = [], setRoute }) => {
         >
           <span
             onClick={() => handleLogout()}
-            style={{ cursor: 'pointer', color: '#1890ff' }}
+            style={{ cursor: 'pointer', color: '#e1e1e1' }}
           >
             Logout
           </span>

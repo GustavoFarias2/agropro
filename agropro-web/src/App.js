@@ -12,7 +12,7 @@ const Auth = () => {
 
     <Layout
       className='layout'
-      style={{ height: '100%', backgroundColor: '#61a0e3' }}
+      style={{ height: '100%' }}
     >
 
       <Content>

@@ -8,10 +8,11 @@ import {
 } from 'antd';
 
 import tableColumns from './tableColumns';
+import tableFazendaColumns from './tableFazendaColumns';
 
 const Produtores = ({ setRoute }) => {
 
-  const data = [{ id: 1, cpfCnpj: 123123124, nome: 'Guzin', fazendas: [] }, { id: 2, cpfCnpj: 223123124, nome: 'Guizin', fazendas: [] }, { id: 3, cpfCnpj: 323123124, nome: 'Jozin', fazendas: [] },]
+  const data = [{ id: 1, cpfCnpj: 123123124, nome: 'Guzin', fazendas: [{ id: 1, nome: 'Fazenda tal', area: 123123123, area_consolidade: 123213, area_legal: 12312 }, { id: 2, nome: 'Fazenda tal', area: 123123123, area_consolidade: 123213, area_legal: 12312 }, { id: 3, nome: 'Fazenda tal', area: 123123123, area_consolidade: 123213, area_legal: 12312 },] }, { id: 2, cpfCnpj: 223123124, nome: 'Guizin', fazendas: [] }, { id: 3, cpfCnpj: 323123124, nome: 'Jozin', fazendas: [] },]
 
   const handleAdicionarProdutor = () => setRoute('AdicionarProdutor');
 
@@ -19,7 +20,7 @@ const Produtores = ({ setRoute }) => {
     <Row
       justify='center'
       align='middle'
-      style={{ padding: 20, paddingTop: 30 }}
+      style={{ paddingTop: 30 }}
     >
       <Col span={24}>
 
@@ -42,15 +43,28 @@ const Produtores = ({ setRoute }) => {
             columns={tableColumns}
             dataSource={data}
 
-            pagination={{ position: ['bottomCenter'] }}
+            scroll={{ x: true }}
+
+            pagination={{
+              position: ['bottomCenter'],
+              hideOnSinglePage: true
+            }}
 
             expandable={{
-              expandedRowRender: () => (
+              expandedRowRender: (row) => (
                 <Table
-                  columns={tableColumns}
+                  rowKey={(row) => row.id}
+
+                  columns={tableFazendaColumns}
+                  dataSource={row.fazendas}
+
+                  scroll
+
+                  pagination={{ hideOnSinglePage: true }}
                 />
               ),
-              rowExpandable: (row) => row.fazendas.length !== 0,
+
+              rowExpandable: ({ fazendas }) => fazendas.length !== 0,
             }}
           />
 

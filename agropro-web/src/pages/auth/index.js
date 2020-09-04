@@ -19,8 +19,6 @@ const Auth = () => {
 
   const [title, setTitle] = useState('Login');
 
-  const handleChange = () => { }
-
   const handleButtonClick = async (values) => {
 
     if (title === 'Login') {
@@ -60,7 +58,6 @@ const Auth = () => {
           <Form
             form={form}
             layout="vertical"
-            onValuesChange={handleChange}
             onFinish={handleButtonClick}
           >
 

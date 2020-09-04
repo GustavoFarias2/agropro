@@ -7,11 +7,8 @@ const ProdutoresRoutes = () => {
 
   const [route, setRoute] = useState('Produtores');
 
-  return (
-    <>
-      {route === 'Produtores' ? <Produtores setRoute={setRoute} /> : <AdicionarProdutores setRoute={setRoute} />}
-    </>
-  )
+  return route === 'Produtores' ? <Produtores setRoute={setRoute} /> : <AdicionarProdutores setRoute={setRoute} />
+
 }
 
 export default ProdutoresRoutes;

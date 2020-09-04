@@ -2,7 +2,10 @@ import React from 'react';
 
 import { Popconfirm, Col } from 'antd';
 
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  DeleteOutlined
+} from '@ant-design/icons';
 
 const tableColumns = [
   {
@@ -16,7 +19,7 @@ const tableColumns = [
 
         <Popconfirm
           placement='topLeft'
-          style={{ backgroundColor: '#f00' }}
+          style={{ left: '64px' }}
 
           okText="Sim"
           cancelText="Não"
@@ -34,15 +37,20 @@ const tableColumns = [
     ),
   },
   {
-    width: 150,
-    title: 'Cpf / Cnpj',
-    dataIndex: 'cpfCnpj',
-    defaultSortOrder: 'descend',
-    sorter: (a, b) => a.cpfCnpj - b.cpfCnpj
-  },
-  {
     title: 'Nome',
     dataIndex: 'nome'
+  },
+  {
+    title: 'Área total',
+    dataIndex: 'area'
+  },
+  {
+    title: 'Área Consolidada',
+    dataIndex: 'area_consolidada'
+  },
+  {
+    title: 'Área Legal',
+    dataIndex: 'area_legal'
   }
 ];
 

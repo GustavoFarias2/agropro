@@ -1,7 +1,13 @@
+/* Fix body height */
 body {
   height: 100%;
 }
 
 #root {
   height: 100% !important;
+}
+
+/* Ant Popover position fix */
+.ant-popconfirm {
+  left: 64px !important;
 }

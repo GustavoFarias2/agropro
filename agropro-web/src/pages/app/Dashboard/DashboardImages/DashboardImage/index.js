@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Col } from 'antd';
 
-const DashboardImage = ({ image, value }) => (
+const DashboardImage = ({ label, image, value }) => (
 
   <Col
     style={{
@@ -15,16 +15,28 @@ const DashboardImage = ({ image, value }) => (
     }}
   >
 
+    <span style={{
+      fontSize: 16,
+      fontWeight: 500
+    }}>
+      {label}
+    </span>
+
     <img
       src={image}
       alt='dashboardImage'
       style={{
         width: '80px',
-        height: '80px'
+        height: '80px',
+        alignSelf: 'center'
       }}
     />
 
-    <span style={{ marginTop: '5px' }}>
+    <span style={{
+      marginTop: '8px',
+      fontSize: 16,
+      fontWeight: 500
+    }}>
       {value} ha
     </span>
 
