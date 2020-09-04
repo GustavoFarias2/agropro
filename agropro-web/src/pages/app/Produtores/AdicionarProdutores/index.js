@@ -30,7 +30,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   useEffect(() => {
 
-    if (produtor) 
+    if (produtor)
       produtor.fazendas.forEach((fazenda, i) => {
 
         form.setFields({
@@ -39,7 +39,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         })
 
       });
-    
+
 
   }, [produtor]);
 
@@ -65,34 +65,43 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
   const handleCofirm = async (values) => {
 
     const fazendas = Object.entries(values)
-      .filter(([key, value]) => key.split('fazenda').length > 1)
+      .filter(([key]) => key.split('fazenda').length > 1)
       .map((fazenda) => fazenda[1]);
 
-    const produtor = {
-      cpf_cnpj: values.cpf_cnpj,
-      nome: values.nome
-    }
+    if (fazendas.some((fazenda) => (fazenda.area_consolidada + fazenda.area_legal) > fazenda.area)) {
 
-    if (!formId) {
-      const response = await api.post('produtor', {
-        produtor,
-        fazendas
-      });
 
-      if (response.status === 200) {
-        dispatch(produtoresActions.ADD_PRODUTOR(response.data));
 
-        handleVoltar();
-      }
     }
     else {
-      const response = await api.put('produtor/' + formId, produtor);
 
-      if (response.status === 200) {
-        dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
-
-        handleVoltar();
+      const produtor = {
+        cpf_cnpj: values.cpf_cnpj,
+        nome: values.nome
       }
+
+      if (!formId) {
+        const response = await api.post('produtor', {
+          produtor,
+          fazendas
+        });
+
+        if (response.status === 200) {
+          dispatch(produtoresActions.ADD_PRODUTOR(response.data));
+
+          handleVoltar();
+        }
+      }
+      else {
+        const response = await api.put('produtor/' + formId, produtor);
+
+        if (response.status === 200) {
+          dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
+
+          handleVoltar();
+        }
+      }
+
     }
 
   }
@@ -160,6 +169,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
               <FazendaForm
                 key={i}
                 index={i}
+                form={form}
                 fazenda={fazenda}
                 handleRemoverFazenda={handleRemoverFazenda}
               />)}

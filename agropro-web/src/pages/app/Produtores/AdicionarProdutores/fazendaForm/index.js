@@ -5,6 +5,7 @@ import {
   Col,
   Form,
   Input,
+  InputNumber,
   Select
 } from 'antd';
 
@@ -12,7 +13,7 @@ import { MinusCircleOutlined } from '@ant-design/icons';
 
 import estados from '../../../../../assets/estados';
 
-const fazendaForm = ({ fazenda, index, handleRemoverFazenda }) => {
+const fazendaForm = ({ form, fazenda, index, handleRemoverFazenda }) => {
 
   return (
     <Row style={{ marginTop: 25 }}>
@@ -39,16 +40,25 @@ const fazendaForm = ({ fazenda, index, handleRemoverFazenda }) => {
       </Col>
       <Col xs={24} sm={24} md={12} style={{ paddingRight: 20 }}>
 
-        <Form.Item name={['fazenda ' + fazenda, 'area']} label='Área' rules={[{ required: true }]}>
-          <Input />
+        <Form.Item
+          name={['fazenda ' + fazenda, 'area']}
+          label='Área'
+          rules={[{
+            required: true,
+            validator: (_, value) =>
+              value > (form.getFieldValue('fazenda ' + fazenda).area_consolidada + form.getFieldValue('fazenda ' + fazenda).area_legal) ?
+                Promise.resolve() : Promise.reject('Os valores das Areas da fazenda não podem ser maiores que o valor da Área total')
+          }]}
+        >
+          <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
 
         <Form.Item name={['fazenda ' + fazenda, 'area_consolidada']} label='Área Consolidade' rules={[{ required: true }]}>
-          <Input />
+          <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
 
         <Form.Item name={['fazenda ' + fazenda, 'area_legal']} label='Área Legal' rules={[{ required: true }]}>
-          <Input />
+          <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
 
         <MinusCircleOutlined
