@@ -19,7 +19,7 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 import estados from '../../../../assets/estados';
 
-const AdicionarProdutores = ({ setRoute }) => {
+const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   const dispatch = useDispatch();
 
@@ -27,13 +27,21 @@ const AdicionarProdutores = ({ setRoute }) => {
 
   const [fazendas, setFazendas] = useState([0]);
 
-  const handleVoltar = () => setRoute('Produtores');
+  const handleVoltar = () => {
+
+    setFormId(null);
+
+    setRoute('Produtores');
+
+  }
 
   const handleAdicionarFazenda = () => {
+
     if (fazendas.length > 0)
       setFazendas([...fazendas, fazendas[fazendas.length - 1] + 1]);
     else
       setFazendas([0]);
+
   }
 
   const handleRemoverFazenda = (i) => setFazendas(fazendas.filter((_, index) => i !== index));
@@ -46,8 +54,6 @@ const AdicionarProdutores = ({ setRoute }) => {
     }
 
     const response = await api.post('produtor', produtor);
-
-    console.log(response.data)
 
     if (response.status === 200) {
 

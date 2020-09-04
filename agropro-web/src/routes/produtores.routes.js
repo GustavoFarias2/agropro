@@ -7,7 +7,24 @@ const ProdutoresRoutes = () => {
 
   const [route, setRoute] = useState('Produtores');
 
-  return route === 'Produtores' ? <Produtores setRoute={setRoute} /> : <AdicionarProdutores setRoute={setRoute} />
+  const [formId, setFormId] = useState(null);
+
+  return route === 'Produtores' ? (
+
+    <Produtores
+      setRoute={setRoute}
+      setFormId={setFormId}
+    />
+
+  ) : (
+
+      <AdicionarProdutores
+        setRoute={setRoute}
+        formId={formId}
+        setFormId={setFormId}
+      />
+
+    )
 
 }
 

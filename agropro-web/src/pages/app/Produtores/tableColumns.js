@@ -9,12 +9,12 @@ const tableColumns = (onEdit, onDelete) => [
     title: 'Ações',
     key: 'actions',
     width: 10,
-    render: () => (
+    render: (_, row) => (
       <Col style={{ textAlign: 'center' }}>
 
         <EditOutlined
           style={{ fontSize: 20, cursor: 'pointer' }}
-          onClick={() => onEdit()}
+          onClick={() => onEdit(row)}
         />
 
         <Popconfirm
@@ -25,7 +25,7 @@ const tableColumns = (onEdit, onDelete) => [
           cancelText="Não"
           title="Você tem certeza que deseja apagar?"
 
-          onConfirm={() => onDelete()}
+          onConfirm={() => onDelete(row)}
         >
           <DeleteOutlined
             style={{

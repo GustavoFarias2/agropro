@@ -15,7 +15,7 @@ import {
 import tableColumns from './tableColumns';
 import tableFazendaColumns from './tableFazendaColumns';
 
-const Produtores = ({ setRoute }) => {
+const Produtores = ({ setRoute, setFormId }) => {
 
   const produtores = useSelector((state) => state.produtores);
 
@@ -36,16 +36,27 @@ const Produtores = ({ setRoute }) => {
 
   }, []);
 
-  const handleAdicionarProdutor = () => setRoute('AdicionarProdutor');
+  const routeToForm = () => setRoute('AdicionarProdutor');
 
-  const handleDeleteProdutor = () => {
+  const handleEditProdutor = (row) => {
 
-    dispatch(produtoresActions.REMOVE_PRODUTOR({
-      id: 1,
-      cpfCnpj: 12312312,
-      nome: 'Guzin',
-      fazendas: []
-    }))
+    setFormId(row.id);
+
+    routeToForm();
+
+  }
+
+  const handleDeleteProdutor = async (row) => {
+
+    const response = await api.delete('produtor/' + row.id);
+
+    if (response.status === 204)
+      dispatch(produtoresActions.REMOVE_PRODUTOR(row))
+
+
+  }
+
+  const handleDeleteFazenda = () => {
 
   }
 
@@ -62,7 +73,7 @@ const Produtores = ({ setRoute }) => {
           bodyStyle={{ paddingRight: 0, paddingLeft: 0 }}
           extra={
             <span
-              onClick={() => handleAdicionarProdutor()}
+              onClick={() => routeToForm()}
               style={{ cursor: 'pointer', color: '#1890ff' }}
             >
               Adicionar Produtor
@@ -73,7 +84,7 @@ const Produtores = ({ setRoute }) => {
           <Table
             rowKey={(row) => row.id}
 
-            columns={tableColumns(() => { }, handleDeleteProdutor)}
+            columns={tableColumns(handleEditProdutor, handleDeleteProdutor)}
             dataSource={produtores}
 
             scroll={{ x: true }}
@@ -88,7 +99,7 @@ const Produtores = ({ setRoute }) => {
                 <Table
                   rowKey={(row) => row.id}
 
-                  columns={tableFazendaColumns(() => { }, () => { })}
+                  columns={tableFazendaColumns(handleEditProdutor, handleDeleteFazenda)}
                   dataSource={row.fazendas}
 
                   scroll
