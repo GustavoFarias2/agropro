@@ -10,7 +10,10 @@ const Auth = () => {
 
   return (
 
-    <Layout className='layout' style={{ height: '100%' }}>
+    <Layout
+      className='layout'
+      style={{ height: '100%', backgroundColor: '#61a0e3' }}
+    >
 
       <Content>
 

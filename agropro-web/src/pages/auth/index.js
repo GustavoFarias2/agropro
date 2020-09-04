@@ -24,7 +24,7 @@ const Auth = () => {
   const handleButtonClick = async (values) => {
 
     if (title === 'Login') {
-      
+
       const response = await api.post('auth', values);
 
       if (response.status === 200) {
@@ -74,13 +74,18 @@ const Auth = () => {
               >
                 Submit
               </Button>
-              <a
+              <span
                 href='#'
-                style={{ marginLeft: 20, marginRight: 20 }}
                 onClick={() => handleRegisterClick()}
+                style={{
+                  cursor: 'pointer',
+                  color: '#1890ff',
+                  marginLeft: 20,
+                  marginRight: 20
+                }}
               >
                 Create account now
-              </a>
+              </span>
 
             </Form.Item>
 

@@ -5,23 +5,23 @@ import {
   Input
 } from 'antd';
 
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
+
 const Login = () => (
 
   <>
     <Form.Item
       name='email'
-      label='Email'
       rules={[{ required: true }]}
     >
-      <Input />
+      <Input prefix={<MailOutlined />} placeholder='Email' />
     </Form.Item>
 
     <Form.Item
       name='password'
-      label='password'
       rules={[{ required: true }]}
     >
-      <Input />
+      <Input prefix={<LockOutlined />} placeholder='Password' />
     </Form.Item>
   </>
 
