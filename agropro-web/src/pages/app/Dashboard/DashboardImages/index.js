@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import api from '../../../../services/api';
 
@@ -14,62 +14,53 @@ import ImageArvore from '../../../../assets/icons/arvore.png';
 
 const DashboardImages = () => {
 
-  // const produtores = useSelector((state) => state.produtores);
-
-  const fazendasArrays = useSelector((state) => state.produtores.map((produtor) => produtor.fazendas));
+  const produtores = useSelector((state) => state.produtores);
 
   const dispatch = useDispatch();
+
+  const [loaded, setLoaded] = useState(false);
 
   const [area_total, setArea_total] = useState(0);
   const [area_consolidada_total, setArea_consolidada_total] = useState(0);
   const [area_legal_total, setArea_legal_total] = useState(0);
 
-  const functionHandler = useCallback(async () => {
+  useEffect(() => {
 
-    const response = await api.get('produtor');
+    const getDashboardData = async () => {
 
-    if (response.status === 200)
-      dispatch(produtoresActions.LOAD_PRODUTORES(response.data))
+      const response = await api.get('produtor');
 
-    let area_total_temp = 0;
-    let area_consolidada_total_temp = 0;
-    let area_legal_total_temp = 0;
+      if (response.status === 200)
+        await dispatch(produtoresActions.LOAD_PRODUTORES(response.data))
 
-    if (fazendasArrays.length > 0) {
+      if (produtores.length > 0) {
 
-      await fazendasArrays.forEach((fazendas) => {
-        fazendas.forEach((fazenda) => {
-          area_total_temp += fazenda.area;
-          area_consolidada_total_temp += fazenda.area_consolidada;
-          area_legal_total_temp += fazenda.area_legal;
+        const fazendasArrays = produtores.map((produtor) => produtor.fazendas);
+
+        let area_total_temp = 0;
+        let area_consolidada_total_temp = 0;
+        let area_legal_total_temp = 0;
+
+        await fazendasArrays.forEach((fazendas) => {
+          fazendas.forEach((fazenda) => {
+            area_total_temp += fazenda.area;
+            area_consolidada_total_temp += fazenda.area_consolidada;
+            area_legal_total_temp += fazenda.area_legal;
+          });
         });
-      });
+
+        setArea_total(area_total_temp);
+        setArea_consolidada_total(area_consolidada_total_temp);
+        setArea_legal_total(area_legal_total_temp);
+
+        setLoaded(true);
+      }
 
     }
 
-    // return [
-    //   area_total_temp,
-    //   area_consolidada_total_temp,
-    //   area_legal_total_temp
-    // ]
+    !loaded && getDashboardData();
 
-    // await getProdutores();
-    // const [
-    //   area_total_temp,
-    //   area_consolidada_total_temp,
-    //   area_legal_total_temp
-    // ] = await formatDashboardData();
-    setArea_total(area_total_temp);
-    setArea_consolidada_total(area_consolidada_total_temp);
-    setArea_legal_total(area_legal_total_temp);
-  }, [])
-
-  useEffect(() => {
-
-    functionHandler();
-    console.log('a')
-
-  }, [fazendasArrays]);
+  }, [produtores]);
 
   return (
 

@@ -34,7 +34,9 @@ const DashboardImage = ({ label, image, value }) => {
       />
 
       <span style={{ fontSize: 16 }}>
-        {value} ha
+        {
+          value === 0 ? '-/-' : value + ' ha'
+        }
       </span>
 
     </Col >
