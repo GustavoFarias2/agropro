@@ -46,7 +46,7 @@ const fazendaForm = ({ form, fazenda, index, handleRemoverFazenda }) => {
           rules={[{
             required: true,
             validator: (_, value) =>
-              value > (form.getFieldValue('fazenda ' + fazenda).area_consolidada + form.getFieldValue('fazenda ' + fazenda).area_legal) ?
+              value >= (form.getFieldValue('fazenda ' + fazenda).area_consolidada + form.getFieldValue('fazenda ' + fazenda).area_legal) ?
                 Promise.resolve() : Promise.reject('Os valores das Areas da fazenda não podem ser maiores que o valor da Área total')
           }]}
         >

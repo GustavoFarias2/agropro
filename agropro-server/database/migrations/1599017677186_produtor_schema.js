@@ -8,7 +8,7 @@ class ProdutorSchema extends Schema {
     this.create('produtors', (table) => {
       table.increments()
       table.integer('user_id').unsigned().references('id').inTable('users')
-      table.string('cpf_cnpj', 14).notNullable()
+      table.string('cpf_cnpj', 18).notNullable()
       table.string('nome', 80).notNullable()
       table.timestamps()
     })

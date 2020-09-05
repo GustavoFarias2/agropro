@@ -10,8 +10,7 @@ import {
   Col,
   Card,
   Form,
-  Input,
-  InputNumber
+  Input
 } from 'antd';
 
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -32,14 +31,11 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
     if (produtor)
       produtor.fazendas.forEach((fazenda, i) => {
-
-        form.setFields({
-          name: 'fazenda ' + i,
-          values: fazenda
-        })
-
+        // form.setFields({
+        //   name: 'fazenda ' + i,
+        //   values: fazenda
+        // })
       });
-
 
   }, [produtor]);
 
@@ -68,40 +64,31 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
       .filter(([key]) => key.split('fazenda').length > 1)
       .map((fazenda) => fazenda[1]);
 
-    if (fazendas.some((fazenda) => (fazenda.area_consolidada + fazenda.area_legal) > fazenda.area)) {
+    const produtor = {
+      cpf_cnpj: values.cpf_cnpj,
+      nome: values.nome
+    }
 
+    if (!formId) {
+      const response = await api.post('produtor', {
+        produtor,
+        fazendas
+      });
 
+      if (response.status === 200) {
+        dispatch(produtoresActions.ADD_PRODUTOR(response.data));
 
+        handleVoltar();
+      }
     }
     else {
+      const response = await api.put('produtor/' + formId, produtor);
 
-      const produtor = {
-        cpf_cnpj: values.cpf_cnpj,
-        nome: values.nome
+      if (response.status === 200) {
+        dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
+
+        handleVoltar();
       }
-
-      if (!formId) {
-        const response = await api.post('produtor', {
-          produtor,
-          fazendas
-        });
-
-        if (response.status === 200) {
-          dispatch(produtoresActions.ADD_PRODUTOR(response.data));
-
-          handleVoltar();
-        }
-      }
-      else {
-        const response = await api.put('produtor/' + formId, produtor);
-
-        if (response.status === 200) {
-          dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
-
-          handleVoltar();
-        }
-      }
-
     }
 
   }
@@ -143,8 +130,16 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
             <Row>
               <Col xs={24} sm={24} md={8}>
 
-                <Form.Item name='cpf_cnpj' label='Cpf / Cpnj' rules={[{ required: true }]}>
-                  <InputNumber style={{ width: '100%' }} />
+                <Form.Item
+                  name='cpf_cnpj'
+                  label='Cpf / Cpnj'
+                  rules={[{
+                    required: true,
+                    max: 18,
+                    pattern: '([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})'  // eslint-disable-line
+                  }]}
+                >
+                  <Input style={{ width: '100%' }} />
                 </Form.Item>
 
                 <Form.Item name='nome' label='Nome' rules={[{ required: true }]}>
