@@ -61,13 +61,13 @@ const App = () => {
       setArea_legal_total(area_legal_total_temp);
       setCulturas((oldCulturas) => [...new Set(oldCulturas)]);
 
-      setLoaded(true);
-
     }
 
     const getDashboardImageData = async () => {
 
       const response = await api.get('produtor');
+
+      setLoaded(true);
 
       if (response.status === 200)
         await dispatch(produtoresActions.LOAD_PRODUTORES(response.data));
@@ -79,7 +79,7 @@ const App = () => {
 
     !loaded && getDashboardImageData();
 
-  }, [produtores]); // eslint-disable-line
+  }, [loaded, dispatch, fazendasArrays, produtores]);
 
   const handleChangeCultura = (cultura) => {
 

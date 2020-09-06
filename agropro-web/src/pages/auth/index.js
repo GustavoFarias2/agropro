@@ -40,14 +40,15 @@ const Auth = () => {
     if (title === 'Login') {
 
       const response = await api.post('auth', values);
-
+      
+      setLoading(false);
+      
       if (response.status === 200)
         dispatch(tokenActions.LOGIN(response.data.token));
 
       if (response.status === 401)
         setLoginFailed(true);
 
-      setLoading(false);
       hide();
 
     }
@@ -83,6 +84,8 @@ const Auth = () => {
 
   const handleRegisterClick = () => {
     form.resetFields();
+    setLoginFailed(false);
+    setRegisterFailed(false);
 
     title === 'Login' ? setTitle('Register') : setTitle('Login');
   }
