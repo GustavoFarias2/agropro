@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { produtoresActions } from '../../../../reducers/produtores';
 
 import { validate } from 'gerador-validador-cpf';
+import validarCNPJ from '../../../../functions/validarCNPJ';
 
 import {
   Row,
@@ -116,21 +117,15 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
     let validateResult = false;
 
-    if (cpfCnpjMask === '111.111.111-11') {
-
-      produtor.cpf_cnpj && (validateResult = validate(produtor.cpf_cnpj));
-
-    }
-    else {
-
-      // VALIDA CNPJ
-
-    }
+    if (cpfCnpjMask === '111.111.111-11')
+      validateResult = validate(produtor.cpf_cnpj);
+    else
+      validateResult = validarCNPJ(produtor.cpf_cnpj);
 
     if (!validateResult) {
 
       message.destroy();
-      const hide = message.warning('o CPF inserido não é valido!');
+      const hide = message.warning('o CPF ou CNPJ inserido não é valido!');
       setSubmiting(false);
       setTimeout(hide, 2500);
 
@@ -226,7 +221,11 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
                 <Form.Item
                   name='cpf_cnpj'
                   label={cpfCnpjMask === '111.111.111-11' ? 'CPF' : 'CNPJ'}
-                  rules={[{ required: true, max: 18, }]}
+                  rules={[{
+                    required: true,
+                    max: 18,
+                    message: 'CPF ou CNPJ são nescessarios para a conclusão do cadastro'
+                  }]}
                 >
                   <MaskedInput
                     mask={cpfCnpjMask}
@@ -235,7 +234,10 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
                   />
                 </Form.Item>
 
-                <Form.Item name='nome' label='Nome' rules={[{ required: true }]}>
+                <Form.Item name='nome' label='Nome' rules={[{
+                  required: true,
+                  message: 'É nescessário o Nome do produtor para efutar o cadastro'
+                }]}>
                   <Input />
                 </Form.Item>
 
