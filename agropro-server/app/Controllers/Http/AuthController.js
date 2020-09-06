@@ -2,7 +2,7 @@
 
 class AuthController {
 
-  async store({ request, response, auth }) {
+  async store({ request, auth }) {
 
     const { email, password } = request.only([
       'email',

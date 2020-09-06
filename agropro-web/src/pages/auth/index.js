@@ -27,35 +27,53 @@ const Auth = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [registerFailed, setRegisterFailed] = useState(false);
+
   const handleButtonClick = async (values) => {
 
     let hide = message.loading('carregando...');
     setLoading(true);
 
+    setRegisterFailed(false);
+
     if (title === 'Login') {
 
       const response = await api.post('auth', values);
 
-      if (response.status === 200) 
+      if (response.status === 200)
         dispatch(tokenActions.LOGIN(response.data.token));
-      
+
+      if (response.status === 401)
+        setLoginFailed(true);
+
+      setLoading(false);
       hide();
-        
+
     }
     else {
 
-      const response = await api.post('user', values);
-
-      if (response.status === 200) {
-
-        form.resetFields();
-        
-        setTitle('Login');
-        setLoading(false);   
-
+      if (form.getFieldsValue().password !== form.getFieldsValue().password_confirmation) {
+        setRegisterFailed(true);
+        setLoading(false);
         hide();
-        hide = message.success('Conta criada!');
-        setTimeout(hide, 2000);
+      }
+      else {
+
+        const response = await api.post('user', values);
+
+        if (response.status === 200) {
+
+          form.resetFields();
+
+          setTitle('Login');
+          setLoading(false);
+
+          hide();
+          hide = message.success('Conta criada!');
+          setTimeout(hide, 2000);
+
+        }
 
       }
 
@@ -76,13 +94,28 @@ const Auth = () => {
 
         <Card title={title}>
 
+          {
+            loginFailed &&
+            <span style={{
+              fontSize: '16px',
+              color: '#f00'
+            }}>
+              Email e/ou senha parecem não estarem corretos
+            </span>
+          }
+
           <Form
             form={form}
             layout="vertical"
             onFinish={handleButtonClick}
           >
 
-            {title === 'Login' ? <Login /> : <Register />}
+            {
+              title === 'Login' ?
+                <Login />
+                :
+                <Register registerFailed={registerFailed} />
+            }
 
             <Form.Item style={{ marginTop: 20 }}>
 

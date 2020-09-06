@@ -29,10 +29,11 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use((response) => response, (error) => {
 
-  if (error.response.status === 401)
+  if (error.response.status === 401) {
     store.dispatch(tokenActions.LOGOUT());
-
-  if (error.response.status === 303)
+    return { status: 401 }
+  }
+  else if (error.response.status === 303)
     return { status: 303 }
 
   return Promise.reject(error);

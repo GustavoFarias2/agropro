@@ -12,7 +12,11 @@ const Login = () => (
   <>
     <Form.Item
       name='email'
-      rules={[{ required: true }]}
+      rules={[{
+        required: true,
+        type: 'email',
+        message: 'Por favor, insira um Email valido!'
+      }]}
     >
       <Input prefix={<MailOutlined />} placeholder='Email' />
     </Form.Item>
@@ -21,7 +25,11 @@ const Login = () => (
       name='password'
       rules={[{ required: true }]}
     >
-      <Input prefix={<LockOutlined />} placeholder='Password' />
+      <Input
+        type='password'
+        prefix={<LockOutlined />}
+        placeholder='Password'
+      />
     </Form.Item>
   </>
 
