@@ -10,7 +10,8 @@ import {
   Col,
   Card,
   Form,
-  Button
+  Button,
+  message
 } from 'antd';
 
 import Login from './forms/Login';
@@ -24,28 +25,45 @@ const Auth = () => {
 
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
+
   const handleButtonClick = async (values) => {
+
+    const hide = message.loading('carregando...');
+    setLoading(true);
 
     if (title === 'Login') {
 
       const response = await api.post('auth', values);
 
-      if (response.status === 200)        
+      if (response.status === 200) 
         dispatch(tokenActions.LOGIN(response.data.token));
-
+      
+      hide();
+        
     }
     else {
 
       const response = await api.post('user', values);
 
-      if (response.status === 200)
-        setTitle('Login')
+      if (response.status === 200) {
+
+        form.resetFields();
+        
+        setTitle('Login');
+        setLoading(true);   
+
+      }
+
+      hide();
 
     }
 
   }
 
   const handleRegisterClick = () => {
+    form.resetFields();
+
     title === 'Login' ? setTitle('Register') : setTitle('Login');
   }
 
@@ -66,7 +84,11 @@ const Auth = () => {
 
             <Form.Item style={{ marginTop: 20 }}>
 
-              <Button type='primary' htmlType='submit'>
+              <Button
+                disabled={loading}
+                type='primary'
+                htmlType='submit'
+              >
                 Submit
               </Button>
               <span

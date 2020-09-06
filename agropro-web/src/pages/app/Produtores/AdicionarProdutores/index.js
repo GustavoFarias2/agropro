@@ -32,7 +32,6 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
   const [fazendas, setFazendas] = useState(produtor ? produtor.fazendas : [0]);
 
   const [submiting, setSubmiting] = useState(false);
-  const [validating, setValidating] = useState(false);
 
   useEffect(() => {
 
