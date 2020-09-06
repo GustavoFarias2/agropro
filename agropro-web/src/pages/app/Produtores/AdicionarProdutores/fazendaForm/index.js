@@ -6,14 +6,18 @@ import {
   Form,
   Input,
   InputNumber,
-  Select
+  Select,
+  Popconfirm
 } from 'antd';
 
-import { MinusCircleOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  MinusCircleOutlined
+} from '@ant-design/icons';
 
 import estados from '../../../../../assets/estados';
 
-const fazendaForm = ({ form, index, handleRemoverFazenda }) => {
+const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemoverExistingFazenda }) => {
 
   return (
     <Row style={{ marginTop: 25 }}>
@@ -61,10 +65,27 @@ const fazendaForm = ({ form, index, handleRemoverFazenda }) => {
           <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
 
-        <MinusCircleOutlined
-          onClick={() => handleRemoverFazenda(index)}
-          style={{ fontSize: '22px', marginLeft: '10px', marginTop: '15px', cursor: 'pointer' }}
-        />
+        {
+          fazenda.id ?
+            <Popconfirm
+              placement='top'
+              style={{ backgroundColor: '#f00' }}
+
+              okText="Sim"
+              cancelText="Não"
+              title="Você tem certeza que deseja apagar?"
+
+              onConfirm={() => handleRemoverExistingFazenda(fazenda, index)}
+            >
+              <DeleteOutlined style={{ fontSize: '22px', marginLeft: '10px', marginTop: '15px', cursor: 'pointer' }} />
+            </Popconfirm>
+            :
+            <MinusCircleOutlined
+              onClick={() => handleRemoverFazenda(null, index)}
+              style={{ fontSize: '22px', marginLeft: '10px', marginTop: '15px', cursor: 'pointer' }}
+            />
+
+        }
 
       </Col>
       <div style={{ border: '1px solid #f0f0f0', width: '100%' }}></div>

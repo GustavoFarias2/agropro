@@ -18,7 +18,7 @@ const tableColumns = (onEdit, onDelete) => [
         />
 
         <Popconfirm
-          placement='topLeft'
+          placement='right'
           style={{ backgroundColor: '#f00' }}
 
           okText="Sim"

@@ -26,7 +26,7 @@ const tableColumns = (onEdit, onDelete) => [
         {
           onDelete &&
           <Popconfirm
-            placement='topLeft'
+            placement='right'
             style={{ left: '64px' }}
 
             okText="Sim"
@@ -62,7 +62,7 @@ const tableColumns = (onEdit, onDelete) => [
   {
     title: 'Cidade',
     dataIndex: 'cidade'
-  }, 
+  },
   {
     title: 'Área total',
     dataIndex: 'area'

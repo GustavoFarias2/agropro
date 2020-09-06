@@ -35,15 +35,15 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   useEffect(() => {
 
-    if (produtor) {    
-      let formData = produtor;  
+    if (produtor) {
+      let formData = produtor;
       produtor.fazendas.forEach((fazenda, i) => {
         formData['fazenda ' + i] = fazenda;
       });
 
       form.setFieldsValue(formData);
     }
-      
+
   }, [produtor]);
 
   const handleVoltar = (inserted = false) => {
@@ -69,6 +69,20 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
   }
 
   const handleRemoverFazenda = (i) => setFazendas(fazendas.filter((_, index) => i !== index));
+
+  const handleRemoverExistingFazenda = async (fazenda, i) => {
+    setFazendas(fazendas.filter((_, index) => i !== index));
+
+    const response = await api.delete('fazenda/' + fazenda.id);
+
+    if (response.status === 204) {
+      dispatch(produtoresActions.REMOVE_FAZENDA(fazenda));
+
+      message.destroy();
+      const hide = message.success('Fazenda removida');
+      setTimeout(hide, 1500);
+    }
+  }
 
   const handleCofirm = async (values) => {
 
@@ -198,12 +212,14 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
               />
             </Row>
 
-            {fazendas.map((_, i) =>
+            {fazendas.map((fazenda, i) =>
               <FazendaForm
                 key={i}
                 index={i}
                 form={form}
+                fazenda={fazenda}
                 handleRemoverFazenda={handleRemoverFazenda}
+                handleRemoverExistingFazenda={handleRemoverExistingFazenda}
               />)}
 
           </Form>
