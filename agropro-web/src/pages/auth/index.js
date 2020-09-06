@@ -28,21 +28,22 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
 
   const [loginFailed, setLoginFailed] = useState(false);
-  const [registerFailed, setRegisterFailed] = useState(false);
+  const [registerEmailFailed, setRegisterEmailFailed] = useState(false);
+  const [registerPasswordFailed, setRegisterPasswordFailed] = useState(false);
 
   const handleButtonClick = async (values) => {
 
     let hide = message.loading('carregando...');
     setLoading(true);
 
-    setRegisterFailed(false);
+    setRegisterPasswordFailed(false);
 
     if (title === 'Login') {
 
       const response = await api.post('auth', values);
-      
+
       setLoading(false);
-      
+
       if (response.status === 200)
         dispatch(tokenActions.LOGIN(response.data.token));
 
@@ -55,7 +56,7 @@ const Auth = () => {
     else {
 
       if (form.getFieldsValue().password !== form.getFieldsValue().password_confirmation) {
-        setRegisterFailed(true);
+        setRegisterPasswordFailed(true);
         setLoading(false);
         hide();
       }
@@ -75,6 +76,10 @@ const Auth = () => {
           setTimeout(hide, 2000);
 
         }
+        else if (response.status === 500 && response.message === 'DUPLICATE_ENTRY') {
+          setRegisterEmailFailed(true);
+          setLoading(false);
+        }
 
       }
 
@@ -85,7 +90,8 @@ const Auth = () => {
   const handleRegisterClick = () => {
     form.resetFields();
     setLoginFailed(false);
-    setRegisterFailed(false);
+    setRegisterEmailFailed(false);
+    setRegisterPasswordFailed(false);
 
     title === 'Login' ? setTitle('Register') : setTitle('Login');
   }
@@ -117,7 +123,10 @@ const Auth = () => {
               title === 'Login' ?
                 <Login />
                 :
-                <Register registerFailed={registerFailed} />
+                <Register
+                  registerEmailFailed={registerEmailFailed}
+                  registerPasswordFailed={registerPasswordFailed}
+                />
             }
 
             <Form.Item style={{ marginTop: 20 }}>

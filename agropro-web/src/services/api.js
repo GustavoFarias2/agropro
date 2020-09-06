@@ -35,6 +35,8 @@ api.interceptors.response.use((response) => response, (error) => {
   }
   else if (error.response.status === 303)
     return { status: 303 }
+  else if (error.response.request.response.split('duplicate key value violates unique constraint').length > 1) 
+    return { status: 500, message: 'DUPLICATE_ENTRY' }
 
   return Promise.reject(error);
 

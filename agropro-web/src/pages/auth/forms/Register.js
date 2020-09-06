@@ -5,7 +5,7 @@ import {
   Input
 } from 'antd';
 
-const Register = ({ registerFailed }) => (
+const Register = ({ registerEmailFailed, registerPasswordFailed }) => (
 
   <>
     <Form.Item
@@ -18,6 +18,16 @@ const Register = ({ registerFailed }) => (
     >
       <Input />
     </Form.Item>
+
+    {
+      registerEmailFailed &&
+      <span style={{
+        fontSize: '16px',
+        color: '#f00'
+      }}>
+        Parece que esse email já foi cadastrado!
+      </span>
+    }
 
     <Form.Item
       name='email'
@@ -32,7 +42,7 @@ const Register = ({ registerFailed }) => (
     </Form.Item>
 
     {
-      registerFailed &&
+      registerPasswordFailed &&
       <span style={{
         fontSize: '16px',
         color: '#f00'
