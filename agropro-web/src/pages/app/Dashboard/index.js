@@ -24,31 +24,36 @@ const App = () => {
 
   const fazendasArrays = produtores.map((produtor) => produtor.fazendas).flat();
 
-  const [fazendasInTable, setFazendasInTable] = useState(fazendasArrays);
-
   const dispatch = useDispatch();
 
   const [loaded, setLoaded] = useState(false);
 
+  const [form] = Form.useForm();
+
   const [culturas, setCulturas] = useState([]);
   const [estados, setEstados] = useState([]);
+  const [fazendasInTable, setFazendasInTable] = useState(fazendasArrays);
 
   const [area_total, setArea_total] = useState(0);
   const [area_consolidada_total, setArea_consolidada_total] = useState(0);
   const [area_legal_total, setArea_legal_total] = useState(0);
 
-  const [form] = Form.useForm();
-
   useEffect(() => {
 
-    const formatData = async () => {
+    const formatData = async (produtores) => {
 
       let area_total_temp = 0;
       let area_consolidada_total_temp = 0;
       let area_legal_total_temp = 0;
       setCulturas([]);
 
-      await fazendasArrays.forEach((fazenda) => {
+      const fazendas = await produtores
+        .map((produtor) => produtor.fazendas)
+        .flat();
+
+      setFazendasInTable(fazendas);
+
+      await fazendas.forEach((fazenda) => {
         area_total_temp += fazenda.area;
         area_consolidada_total_temp += fazenda.area_consolidada;
         area_legal_total_temp += fazenda.area_legal;
@@ -59,6 +64,7 @@ const App = () => {
       setArea_total(area_total_temp);
       setArea_consolidada_total(area_consolidada_total_temp);
       setArea_legal_total(area_legal_total_temp);
+
       setCulturas((oldCulturas) => [...new Set(oldCulturas)]);
 
     }
@@ -72,14 +78,14 @@ const App = () => {
       if (response.status === 200)
         await dispatch(produtoresActions.LOAD_PRODUTORES(response.data));
 
-      if (produtores.length > 0)
-        await formatData();
+      if (response.data.length > 0)
+        await formatData(response.data);
 
     }
 
     !loaded && getDashboardImageData();
 
-  }, [loaded, dispatch, fazendasArrays, produtores]);
+  }, [loaded, dispatch]);
 
   const handleChangeCultura = (cultura) => {
 
