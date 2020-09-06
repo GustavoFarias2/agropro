@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.6.2",
     "axios": "^0.20.0",
+    "gerador-validador-cpf": "^5.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.1.0-rc.1",

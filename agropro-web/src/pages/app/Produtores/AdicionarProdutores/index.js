@@ -5,12 +5,16 @@ import api from '../../../../services/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { produtoresActions } from '../../../../reducers/produtores';
 
+import { validate } from 'gerador-validador-cpf';
+
 import {
   Row,
   Col,
   Card,
   Form,
-  Input
+  Input,
+  Button,
+  message
 } from 'antd';
 
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -26,6 +30,9 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
   const [form] = Form.useForm();
 
   const [fazendas, setFazendas] = useState(produtor ? produtor.fazendas : [0]);
+
+  const [submiting, setSubmiting] = useState(false);
+  const [validating, setValidating] = useState(false);
 
   useEffect(() => {
 
@@ -60,35 +67,60 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   const handleCofirm = async (values) => {
 
-    const fazendas = Object.entries(values)
-      .filter(([key]) => key.split('fazenda').length > 1)
-      .map((fazenda) => fazenda[1]);
+    setSubmiting(true);
+    message.loading('Validando informações');
 
     const produtor = {
       cpf_cnpj: values.cpf_cnpj,
       nome: values.nome
     }
 
-    if (!formId) {
-      const response = await api.post('produtor', {
-        produtor,
-        fazendas
-      });
+    let validateResult = false;
+    if (produtor.cpf_cnpj)
+      validateResult = validate(produtor.cpf_cnpj)
 
-      if (response.status === 200) {
-        dispatch(produtoresActions.ADD_PRODUTOR(response.data));
+    if (!validateResult) {
 
-        handleVoltar();
-      }
+      message.destroy();
+      const hide = message.warning('o CPF inserido não é valido!');
+      setSubmiting(false);
+      setTimeout(hide, 2500);
+
     }
     else {
-      const response = await api.put('produtor/' + formId, produtor);
 
-      if (response.status === 200) {
-        dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
+      const fazendas = Object.entries(values)
+        .filter(([key]) => key.split('fazenda').length > 1)
+        .map((fazenda) => fazenda[1]);
 
-        handleVoltar();
+      if (!formId) {
+        const response = await api.post('produtor', {
+          produtor,
+          fazendas
+        });
+
+        if (response.status === 200) {
+          dispatch(produtoresActions.ADD_PRODUTOR(response.data));
+
+          handleVoltar();
+        }
+        else if (response.status === 303) {
+          message.destroy();
+          const hide = message.warning('Já existe um Produtor com este nome no sistema!');
+          setSubmiting(false);
+          setTimeout(hide, 2500);
+        }
       }
+      else {
+        const response = await api.put('produtor/' + formId, produtor);
+
+        if (response.status === 200) {
+          dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
+
+          handleVoltar();
+        }
+      }
+
     }
 
   }
@@ -104,20 +136,21 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         <Card
           title='Adicionar um Produtor'
           extra={
-            <>
+            <Row align='middle'>
               <span
                 onClick={() => handleVoltar()}
                 style={{ cursor: 'pointer', color: '#1890ff', marginRight: '15px' }}
               >
                 voltar
               </span>
-              <span
+              <Button
+                disabled={submiting}
                 onClick={() => form.submit()}
                 style={{ cursor: 'pointer', fontWeight: 500, fontSize: '16px' }}
               >
                 Confirmar
-              </span>
-            </>
+              </Button>
+            </Row>
           }
         >
           <Form
