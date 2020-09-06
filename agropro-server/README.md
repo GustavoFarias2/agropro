@@ -16,6 +16,9 @@ with AdonisJs
 ## 🔧 How to use
 
     run yarn to install the dependences
+    
+    run 'adonis migration:run' to run the migrations to database 
+    (in example env, the default database is postgres, if you want to use other data base, you need to 'yarn add' the package for it)
 
     run 'adonis serve' to start the server
 
