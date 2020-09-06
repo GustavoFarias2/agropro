@@ -13,9 +13,14 @@ import {
   Card,
   Form,
   Input,
+  Switch,
   Button,
   message
 } from 'antd';
+
+import {
+  MaskedInput
+} from 'antd-mask-input'
 
 import { PlusCircleOutlined } from '@ant-design/icons';
 
@@ -31,6 +36,8 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   const [fazendas, setFazendas] = useState(produtor ? produtor.fazendas : [0]);
 
+  const [cpfCnpjMask, setCpfCnpjMask] = useState('111.111.111-11');
+
   const [submiting, setSubmiting] = useState(false);
 
   useEffect(() => {
@@ -42,9 +49,12 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
       });
 
       form.setFieldsValue(formData);
+
+      if (produtor.cpf_cnpj.split('').length > 12)
+        changeMask();
     }
 
-  }, [produtor]);
+  }, [produtor, form]);
 
   const handleVoltar = (inserted = false) => {
 
@@ -56,6 +66,14 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
     setFormId(null);
     setRoute('Produtores');
+
+  }
+
+  const changeMask = () => {
+
+    cpfCnpjMask === '111.111.111-11' ? setCpfCnpjMask('11.111.111/1111-11') : setCpfCnpjMask('111.111.111-11');
+
+    form.resetFields(['cpf_cnpj']);
 
   }
 
@@ -95,8 +113,18 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
     }
 
     let validateResult = false;
-    if (produtor.cpf_cnpj)
-      validateResult = validate(produtor.cpf_cnpj)
+
+    if (cpfCnpjMask === '111.111.111-11') {
+
+      if (produtor.cpf_cnpj)
+        validateResult = validate(produtor.cpf_cnpj)
+
+    }
+    else {
+
+      // VALIDA CNPJ
+
+    }
 
     if (!validateResult) {
 
@@ -182,16 +210,20 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
             <Row>
               <Col xs={24} sm={24} md={8}>
 
+                <Switch
+                  onClick={() => changeMask()}
+                  checked={cpfCnpjMask !== '111.111.111-11'}
+                  style={{ marginBottom: '10px' }}
+                />
                 <Form.Item
                   name='cpf_cnpj'
-                  label='Cpf / Cpnj'
-                  rules={[{
-                    required: true,
-                    max: 18,
-                    pattern: '([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})'  // eslint-disable-line
-                  }]}
+                  label={cpfCnpjMask === '111.111.111-11' ? 'CPF' : 'CNPJ'}
+                  rules={[{ required: true, max: 18, }]}
                 >
-                  <Input style={{ width: '100%' }} />
+                  <MaskedInput
+                    mask={cpfCnpjMask}
+                    style={{ width: '100%' }}
+                  />
                 </Form.Item>
 
                 <Form.Item name='nome' label='Nome' rules={[{ required: true }]}>

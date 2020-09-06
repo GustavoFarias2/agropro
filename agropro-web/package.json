@@ -8,6 +8,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.6.2",
+    "antd-mask-input": "^0.1.13",
     "axios": "^0.20.0",
     "gerador-validador-cpf": "^5.0.1",
     "react": "^16.13.1",

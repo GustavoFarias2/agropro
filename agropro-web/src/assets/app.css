@@ -8,6 +8,6 @@ body {
 }
 
 /* Ant Popover position fix */
-/* .ant-popconfirm {
-  left: 64px !important;
-} */
+.ant-switch {
+  background-color: #1890ff !important;
+}
