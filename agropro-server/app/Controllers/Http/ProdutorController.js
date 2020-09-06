@@ -102,18 +102,18 @@ class ProdutorController {
    */
   async update({ params, request, response, auth }) {
 
-    const produtor = await Produtor.findOrFail(params.id)
+    const loadedProdutor = await Produtor.findOrFail(params.id)
 
-    if (produtor.user_id !== auth.user.id)
+    if (loadedProdutor.user_id !== auth.user.id)
       return response.status(401).send()
 
-    await produtor.merge(request.only([
-      'nome'
-    ]))
+    const { produtor } = request.only('produtor')
 
-    await produtor.save()
+    await loadedProdutor.merge(produtor)
 
-    return produtor
+    await loadedProdutor.save()
+
+    return loadedProdutor
 
   }
 

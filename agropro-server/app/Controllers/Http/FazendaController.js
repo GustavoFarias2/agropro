@@ -51,33 +51,30 @@ class FazendaController {
    */
   async store({ request, response }) {
 
-    const { produtor_id, nome, area, area_consolidada, area_legal } = request.only([
+    const newFazenda = request.only([
       'produtor_id',
       'nome',
+      'cidade',
+      'estado',
+      'culturas',
       'area',
       'area_consolidada',
       'area_legal'
     ])
 
-    if (area_consolidada + area_legal > area)
+    if (newFazenda.area_consolidada + newFazenda.area_legal > newFazenda.area)
       return response.status(400).send()
 
     const checkIfExist = await Fazenda
       .query()
-      .where('nome', nome)
-      .where('produtor_id', produtor_id)
+      .where('nome', newFazenda.nome)
+      .where('produtor_id', newFazenda.produtor_id)
       .first()
 
     if (checkIfExist)
       return response.status(303).send()
 
-    const fazenda = await Fazenda.create({
-      produtor_id,
-      nome,
-      area,
-      area_consolidada,
-      area_legal
-    })
+    const fazenda = await Fazenda.create(newFazenda)
 
     return fazenda
 
@@ -133,22 +130,20 @@ class FazendaController {
     if (produtor.user_id !== auth.user.id)
       return response.status(401).send()
 
-    const { nome, area, area_consolidada, area_legal } = request.only([
+    const newFazenda = request.only([
       'nome',
+      'cidade',
+      'estado',
+      'culturas',
       'area',
       'area_consolidada',
       'area_legal'
     ])
 
-    if (area_consolidada + area_legal > area)
+    if (newFazenda.area_consolidada + newFazenda.area_legal > newFazenda.area)
       return response.status(400).send()
 
-    await fazenda.merge({
-      nome,
-      area,
-      area_consolidada,
-      area_legal
-    })
+    await fazenda.merge(newFazenda)
 
     await fazenda.save()
 
@@ -164,8 +159,8 @@ class FazendaController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params,  response, auth }) {
-    
+  async destroy({ params, response, auth }) {
+
     const fazenda = await Fazenda
       .query()
       .where('id', params.id)

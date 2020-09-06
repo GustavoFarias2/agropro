@@ -24,17 +24,24 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
       <Col xs={24} sm={24} md={12} style={{ paddingRight: 20 }}>
 
         <Form.Item
-          name={['fazenda ' + index, 'nome']}
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'id']}
+          hidden
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'nome']}
           label='Nome da Fazenda'
           rules={[{
             required: true,
             message: 'É nescessário o nome da fazenda para cadastrá-la!'
           }]}>
-          <Input />
+          <Input autoComplete='dontshow' />
         </Form.Item>
 
         <Form.Item
-          name={['fazenda ' + index, 'cidade']}
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'cidade']}
           label='Cidade'
           rules={[{
             required: true,
@@ -44,7 +51,7 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
         </Form.Item>
 
         <Form.Item
-          name={['fazenda ' + index, 'estado']}
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'estado']}
           label='Estado'
           rules={[{
             required: true,
@@ -56,7 +63,7 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
         </Form.Item>
 
         <Form.Item
-          name={['fazenda ' + index, 'culturas']}
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'culturas']}
           label='Culturas'
           rules={[{
             required: true,
@@ -69,13 +76,13 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
       <Col xs={24} sm={24} md={12} style={{ paddingRight: 20 }}>
 
         <Form.Item
-          name={['fazenda ' + index, 'area']}
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'area']}
           label='Área'
           initialValue={0}
           rules={[{
             required: true,
             validator: (_, value) =>
-              value >= (form.getFieldValue('fazenda ' + index).area_consolidada + form.getFieldValue('fazenda ' + index).area_legal) ?
+              value >= (form.getFieldValue('fazenda ' + (fazenda.id ? fazenda.id : index).toString()).area_consolidada + form.getFieldValue('fazenda ' + (fazenda.id ? fazenda.id : index).toString()).area_legal) ?
                 Promise.resolve() : Promise.reject('Os valores das Areas da fazenda não podem ser maiores que o valor da Área total')
           }]}
         >
@@ -83,7 +90,7 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
         </Form.Item>
 
         <Form.Item
-          name={['fazenda ' + index, 'area_consolidada']}
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'area_consolidada']}
           label='Área Consolidade'
           initialValue={0}
           rules={[{
@@ -95,7 +102,7 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
         </Form.Item>
 
         <Form.Item
-          name={['fazenda ' + index, 'area_legal']}
+          name={['fazenda ' + (fazenda.id ? fazenda.id : index).toString(), 'area_legal']}
           label='Área Legal'
           initialValue={0}
           rules={[{
@@ -116,13 +123,13 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
               cancelText="Não"
               title="Você tem certeza que deseja apagar?"
 
-              onConfirm={() => handleRemoverExistingFazenda(fazenda, index)}
+              onConfirm={() => handleRemoverExistingFazenda(fazenda)}
             >
               <DeleteOutlined style={{ fontSize: '22px', marginLeft: '10px', marginTop: '15px', cursor: 'pointer' }} />
             </Popconfirm>
             :
             <MinusCircleOutlined
-              onClick={() => handleRemoverFazenda(null, index)}
+              onClick={() => handleRemoverFazenda(index)}
               style={{ fontSize: '22px', marginLeft: '10px', marginTop: '15px', cursor: 'pointer' }}
             />
 

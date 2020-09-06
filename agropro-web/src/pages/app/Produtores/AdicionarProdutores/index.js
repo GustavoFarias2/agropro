@@ -39,7 +39,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   const [fazendas, setFazendas] = useState(produtor ? produtor.fazendas : [0]);
 
-  const [cpfCnpjMask, setCpfCnpjMask] = useState(produtor && produtor.cpf_cnpj.split('').length ? '11.111.111/1111-11' : '111.111.111-11');
+  const [cpfCnpjMask, setCpfCnpjMask] = useState((produtor && produtor.cpf_cnpj.split('').length > 15) ? '11.111.111/1111-11' : '111.111.111-11');
 
   const [submiting, setSubmiting] = useState(false);
 
@@ -51,7 +51,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
       let formData = produtor;
 
-      produtor.fazendas.forEach((fazenda, i) => formData['fazenda ' + i] = fazenda);
+      produtor.fazendas.forEach((fazenda, i) => formData['fazenda ' + (fazenda.id ? fazenda.id : i).toString()] = fazenda);
 
       form.setFieldsValue(formData);
 
@@ -86,15 +86,18 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   }
 
-  const handleRemoverFazenda = (i) => setFazendas(fazendas.filter((_, index) => i !== index));
+  const handleRemoverFazenda = (index) => setFazendas(fazendas.filter((_, i) => index !== i));
 
-  const handleRemoverExistingFazenda = async (fazenda, i) => {
-    setFazendas(fazendas.filter((_, index) => i !== index));
+  const handleRemoverExistingFazenda = async (removedFazenda) => {
 
-    const response = await api.delete('fazenda/' + fazenda.id);
+    const newFazendasArray = fazendas.filter((fazenda) => removedFazenda.id !== fazenda.id);
+    
+    setFazendas(newFazendasArray);
+
+    const response = await api.delete('fazenda/' + removedFazenda.id);
 
     if (response.status === 204) {
-      dispatch(produtoresActions.REMOVE_FAZENDA(fazenda));
+      dispatch(produtoresActions.REMOVE_FAZENDA(removedFazenda));
 
       message.destroy();
       const hide = message.success('Fazenda removida');
@@ -134,6 +137,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         .map((fazenda) => fazenda[1]);
 
       if (!formId) {
+
         const response = await api.post('produtor', { produtor, fazendas });
 
         if (response.status === 200) {
@@ -148,8 +152,18 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
           setSubmiting(false);
           setTimeout(hide, 2500);
         }
+
       }
       else {
+
+        await fazendas.forEach((fazenda) => {
+          if (fazenda.id)
+            api.put('fazenda/' + fazenda.id, fazenda);
+          else {
+            fazenda.produtor_id = formId;
+            api.post('fazenda', fazenda);
+          }
+        });
         const response = await api.put('produtor/' + formId, produtor);
 
         if (response.status === 200) {
@@ -157,6 +171,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
           handleVoltar(true);
         }
+
       }
 
     }
@@ -196,6 +211,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
             layout="vertical"
             initialValues={produtor && produtor}
             onFinish={handleCofirm}
+            autoComplete='dontshow'
           >
 
             <Row>
@@ -235,7 +251,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
                   required: true,
                   message: 'É nescessário o Nome do produtor para efutar o cadastro'
                 }]}>
-                  <Input />
+                  <Input autoComplete='dontshow' />
                 </Form.Item>
 
               </Col>
