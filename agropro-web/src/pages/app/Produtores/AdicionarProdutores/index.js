@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import api from '../../../../services/api';
 
@@ -35,37 +35,29 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
   const dispatch = useDispatch();
 
   const [form] = Form.useForm();
+  const [formLoaded, setFormLoaded] = useState(false);
 
   const [fazendas, setFazendas] = useState(produtor ? produtor.fazendas : [0]);
 
-  const [cpfCnpjMask, setCpfCnpjMask] = useState('111.111.111-11');
+  const [cpfCnpjMask, setCpfCnpjMask] = useState(produtor && produtor.cpf_cnpj.split('').length ? '11.111.111/1111-11' : '111.111.111-11');
 
   const [submiting, setSubmiting] = useState(false);
 
-
-  const changeMask = useCallback(() => {
-
-    cpfCnpjMask === '111.111.111-11' ? setCpfCnpjMask('11.111.111/1111-11') : setCpfCnpjMask('111.111.111-11');
-
-    form.resetFields(['cpf_cnpj']);
-
-  }, [cpfCnpjMask, setCpfCnpjMask, form]);
-
   useEffect(() => {
 
-    if (produtor) {
+    if (produtor && !formLoaded) {
+
+      setFormLoaded(true);
+
       let formData = produtor;
-      produtor.fazendas.forEach((fazenda, i) => {
-        formData['fazenda ' + i] = fazenda;
-      });
+
+      produtor.fazendas.forEach((fazenda, i) => formData['fazenda ' + i] = fazenda);
 
       form.setFieldsValue(formData);
 
-      if (produtor.cpf_cnpj.split('').length > 12)
-        changeMask();
     }
 
-  }, [produtor, form, changeMask]);
+  }, [produtor, form, formLoaded]);
 
   const handleVoltar = (inserted = false) => {
 
@@ -78,6 +70,11 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
     setFormId(null);
     setRoute('Produtores');
 
+  }
+
+  const changeMask = () => {
+    cpfCnpjMask === '111.111.111-11' ? setCpfCnpjMask('11.111.111/1111-11') : setCpfCnpjMask('111.111.111-11');
+    form.resetFields(['cpf_cnpj']);
   }
 
   const handleAdicionarFazenda = () => {
@@ -230,7 +227,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
                   <MaskedInput
                     mask={cpfCnpjMask}
                     style={{ width: '100%' }}
-                    disabled={produtor}
+                    disabled={produtor && formLoaded}
                   />
                 </Form.Item>
 
