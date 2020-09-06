@@ -8,6 +8,15 @@ body {
 }
 
 /* Ant Popover position fix */
+/* Switch */
 .ant-switch {
   background-color: #1890ff !important;
+}
+/* Tooltip */
+.ant-tooltip-arrow-content{
+  background-color: #fff;
+}
+.ant-tooltip-inner {
+  background-color: #fff;
+  color: #000;
 }

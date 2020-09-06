@@ -119,7 +119,7 @@ const App = () => {
           <DashboardImages areas={[area_total, area_consolidada_total, area_legal_total]} />
 
           <span style={{ fontSize: 16, fontWeight: 500 }}>
-            Fazendas
+            Filtro de Fazendas
           </span>
           <hr />
 

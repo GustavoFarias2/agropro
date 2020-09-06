@@ -47,6 +47,7 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
         <Form.Item
           name={['fazenda ' + index, 'area']}
           label='Área'
+          initialValue={0}
           rules={[{
             required: true,
             validator: (_, value) =>
@@ -57,11 +58,21 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
           <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + index, 'area_consolidada']} label='Área Consolidade' rules={[{ required: true }]}>
+        <Form.Item
+          name={['fazenda ' + index, 'area_consolidada']}
+          label='Área Consolidade'
+          initialValue={0}
+          rules={[{ required: true }]}
+        >
           <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + index, 'area_legal']} label='Área Legal' rules={[{ required: true }]}>
+        <Form.Item
+          name={['fazenda ' + index, 'area_legal']}
+          label='Área Legal'
+          initialValue={0}
+          rules={[{ required: true }]}
+        >
           <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
 

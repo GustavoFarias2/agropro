@@ -47,7 +47,7 @@ class ProdutorController {
 
     const checkIfExist = await Produtor
       .query()
-      .where('nome', produtor.nome)
+      .where('cpf_cnpj', produtor.cpf_cnpj)
       .where('user_id', auth.user.id)
       .first()
 

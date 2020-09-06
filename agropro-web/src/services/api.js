@@ -32,6 +32,9 @@ api.interceptors.response.use((response) => response, (error) => {
   if (error.response.status === 401)
     store.dispatch(tokenActions.LOGOUT());
 
+  if (error.response.status === 303)
+    return { status: 303 }
+
   return Promise.reject(error);
 
 });

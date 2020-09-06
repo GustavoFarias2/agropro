@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import api from '../../../../services/api';
 
@@ -15,7 +15,8 @@ import {
   Input,
   Switch,
   Button,
-  message
+  message,
+  Tooltip
 } from 'antd';
 
 import {
@@ -40,6 +41,15 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   const [submiting, setSubmiting] = useState(false);
 
+
+  const changeMask = useCallback(() => {
+
+    cpfCnpjMask === '111.111.111-11' ? setCpfCnpjMask('11.111.111/1111-11') : setCpfCnpjMask('111.111.111-11');
+
+    form.resetFields(['cpf_cnpj']);
+
+  }, [cpfCnpjMask, setCpfCnpjMask, form]);
+
   useEffect(() => {
 
     if (produtor) {
@@ -54,7 +64,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         changeMask();
     }
 
-  }, [produtor, form]);
+  }, [produtor, form, changeMask]);
 
   const handleVoltar = (inserted = false) => {
 
@@ -66,14 +76,6 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
     setFormId(null);
     setRoute('Produtores');
-
-  }
-
-  const changeMask = () => {
-
-    cpfCnpjMask === '111.111.111-11' ? setCpfCnpjMask('11.111.111/1111-11') : setCpfCnpjMask('111.111.111-11');
-
-    form.resetFields(['cpf_cnpj']);
 
   }
 
@@ -116,8 +118,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
     if (cpfCnpjMask === '111.111.111-11') {
 
-      if (produtor.cpf_cnpj)
-        validateResult = validate(produtor.cpf_cnpj)
+      produtor.cpf_cnpj && (validateResult = validate(produtor.cpf_cnpj));
 
     }
     else {
@@ -141,10 +142,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         .map((fazenda) => fazenda[1]);
 
       if (!formId) {
-        const response = await api.post('produtor', {
-          produtor,
-          fazendas
-        });
+        const response = await api.post('produtor', { produtor, fazendas });
 
         if (response.status === 200) {
           dispatch(produtoresActions.ADD_PRODUTOR(response.data));
@@ -153,7 +151,8 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         }
         else if (response.status === 303) {
           message.destroy();
-          const hide = message.warning('Já existe um Produtor com este nome no sistema!');
+          const hide = message.warning('Já existe um Produtor com este CPF ou CNPJ no sistema!');
+
           setSubmiting(false);
           setTimeout(hide, 2500);
         }
@@ -210,11 +209,20 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
             <Row>
               <Col xs={24} sm={24} md={8}>
 
-                <Switch
-                  onClick={() => changeMask()}
-                  checked={cpfCnpjMask !== '111.111.111-11'}
-                  style={{ marginBottom: '10px' }}
-                />
+                <Tooltip
+                  title='Você pode alterar de CPF para CNPJ aqui!'
+
+                  placement='right'
+                  arrowPointAtCenter
+                  defaultVisible={!produtor}
+                >
+                  <Switch
+                    onClick={() => changeMask()}
+                    checked={cpfCnpjMask !== '111.111.111-11'}
+                    style={{ marginBottom: '10px' }}
+                    disabled={produtor}
+                  />
+                </Tooltip>
                 <Form.Item
                   name='cpf_cnpj'
                   label={cpfCnpjMask === '111.111.111-11' ? 'CPF' : 'CNPJ'}
@@ -223,6 +231,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
                   <MaskedInput
                     mask={cpfCnpjMask}
                     style={{ width: '100%' }}
+                    disabled={produtor}
                   />
                 </Form.Item>
 
