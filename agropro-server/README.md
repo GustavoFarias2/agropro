@@ -8,6 +8,11 @@ with AdonisJs
 
 ---
 
+## ⚙️ Setup
+
+    go to .env to setup the ambient variables
+
+
 ## 🔧 How to use
 
     run yarn to install the dependences

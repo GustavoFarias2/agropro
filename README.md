@@ -2,7 +2,7 @@
   Agropro
 </h1>
 
----
+<br>
 
 ## ⚡ Stack
 
@@ -14,19 +14,15 @@
 
 ## 🔧 How to use
 
-      Goto the directories to install the dependences
-
-      Run web and server
-
-      default urls
-
-## ⚙️ Default urls
-
-- web: localhost:3000
-- server: localhost:3333
-- database: localhost:5432
+ Both pastes contain a README with instruction for hhow to run each stack
+      
+- [FrontEnd](./agropro-web)
+- [BackEnd](./agropro-server)
 
 ---
+
+<br>
+<br>
 
 Wanna help? You can send mensages to me on my email!
 
