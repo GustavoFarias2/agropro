@@ -29,7 +29,7 @@ const fazendaForm = ({ form, fazenda, index, handleRemoverFazenda }) => {
 
         <Form.Item name={['fazenda ' + fazenda, 'estado']} label='Estado' rules={[{ required: true }]}>
           <Select placeholder='Estado'>
-            {estados.map((estado, i) => <Select.Option key={i} name={estado.toLocaleLowerCase()}>{estado}</Select.Option>)}
+            {estados.map((estado) => <Select.Option key={estado} name={estado.toLocaleLowerCase()}>{estado}</Select.Option>)}
           </Select>
         </Form.Item>
 

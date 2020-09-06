@@ -12,8 +12,8 @@ import {
   Table
 } from 'antd';
 
-import tableColumns from './tableColumns';
-import tableFazendaColumns from './tableFazendaColumns';
+import tableColumns from '../../../assets/tableColumns';
+import tableFazendaColumns from '../../../assets/tableFazendaColumns';
 
 const Produtores = ({ setRoute, setFormId }) => {
 

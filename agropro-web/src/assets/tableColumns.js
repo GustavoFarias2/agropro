@@ -2,10 +2,7 @@ import React from 'react';
 
 import { Popconfirm, Col } from 'antd';
 
-import {
-  EditOutlined,
-  DeleteOutlined
-} from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const tableColumns = (onEdit, onDelete) => [
   {
@@ -17,12 +14,12 @@ const tableColumns = (onEdit, onDelete) => [
 
         <EditOutlined
           style={{ fontSize: 20, cursor: 'pointer' }}
-          onClick={() => onEdit(row.produtor_id)}
+          onClick={() => onEdit(row.id)}
         />
 
         <Popconfirm
           placement='topLeft'
-          style={{ left: '64px' }}
+          style={{ backgroundColor: '#f00' }}
 
           okText="Sim"
           cancelText="Não"
@@ -42,24 +39,15 @@ const tableColumns = (onEdit, onDelete) => [
     ),
   },
   {
+    width: 150,
+    title: 'CPF / CNPJ',
+    dataIndex: 'cpf_cnpj',
+    defaultSortOrder: 'descend',
+    sorter: (a, b) => a.cpf_cnpj - b.cpf_cnpj
+  },
+  {
     title: 'Nome',
     dataIndex: 'nome'
-  },
-  {
-    title: 'Culturas',
-    dataIndex: 'culturas'
-  },
-  {
-    title: 'Área total',
-    dataIndex: 'area'
-  },
-  {
-    title: 'Área Consolidada',
-    dataIndex: 'area_consolidada'
-  },
-  {
-    title: 'Área Legal',
-    dataIndex: 'area_legal'
   }
 ];
 
