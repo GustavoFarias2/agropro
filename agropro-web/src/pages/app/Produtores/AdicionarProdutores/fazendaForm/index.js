@@ -23,21 +23,45 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
     <Row style={{ marginTop: 25 }}>
       <Col xs={24} sm={24} md={12} style={{ paddingRight: 20 }}>
 
-        <Form.Item name={['fazenda ' + index, 'nome']} label='Nome da Fazenda' rules={[{ required: true }]}>
+        <Form.Item
+          name={['fazenda ' + index, 'nome']}
+          label='Nome da Fazenda'
+          rules={[{
+            required: true,
+            message: 'É nescessário o nome da fazenda para cadastrá-la!'
+          }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + index, 'cidade']} label='Cidade' rules={[{ required: true }]}>
+        <Form.Item
+          name={['fazenda ' + index, 'cidade']}
+          label='Cidade'
+          rules={[{
+            required: true,
+            message: 'Os campos de endereço são obrigatórios para o cadastro!'
+          }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + index, 'estado']} label='Estado' rules={[{ required: true }]}>
+        <Form.Item
+          name={['fazenda ' + index, 'estado']}
+          label='Estado'
+          rules={[{
+            required: true,
+            message: 'Os campos de endereço são obrigatórios para o cadastro!'
+          }]}>
           <Select placeholder='Estado'>
             {estados.map((estado) => <Select.Option key={estado} name={estado.toLocaleLowerCase()}>{estado}</Select.Option>)}
           </Select>
         </Form.Item>
 
-        <Form.Item name={['fazenda ' + index, 'culturas']} label='Culturas' rules={[{ required: true }]}>
+        <Form.Item
+          name={['fazenda ' + index, 'culturas']}
+          label='Culturas'
+          rules={[{
+            required: true,
+            message: 'É nescessário inserir a cultura desta fazenda'
+          }]}>
           <Input />
         </Form.Item>
 
@@ -62,7 +86,10 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
           name={['fazenda ' + index, 'area_consolidada']}
           label='Área Consolidade'
           initialValue={0}
-          rules={[{ required: true }]}
+          rules={[{
+            required: true,
+            message: 'o Valor da Área Consolidada e obrigatório'
+          }]}
         >
           <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
@@ -71,7 +98,10 @@ const fazendaForm = ({ fazenda, form, index, handleRemoverFazenda, handleRemover
           name={['fazenda ' + index, 'area_legal']}
           label='Área Legal'
           initialValue={0}
-          rules={[{ required: true }]}
+          rules={[{
+            required: true,
+            message: 'o Valor da Área Legal e obrigatório'
+          }]}
         >
           <InputNumber style={{ width: '100% ' }} />
         </Form.Item>
