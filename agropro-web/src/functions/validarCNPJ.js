@@ -34,8 +34,6 @@ const validarCNPJ = (cnpj) => {
   if (resultado.toString() !== digitos.charAt(0))
     return false;
 
-  console.log('B')
-
   // Second Digit validation
   tamanho++;
   numeros = cnpj.substring(0, tamanho);
@@ -49,7 +47,6 @@ const validarCNPJ = (cnpj) => {
   if (resultado.toString() !== digitos.charAt(1))
     return false;
 
-  console.log('C')
   return true;
 
 }
