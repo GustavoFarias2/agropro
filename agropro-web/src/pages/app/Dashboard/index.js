@@ -112,7 +112,7 @@ const App = () => {
   return (
 
     <Row justify='center' align='middle' style={{ padding: 20, paddingTop: 30 }}>
-      <Col md={12} sm={24}>
+      <Col md={14} sm={24}>
 
         <Card title='Dashboard'>
 

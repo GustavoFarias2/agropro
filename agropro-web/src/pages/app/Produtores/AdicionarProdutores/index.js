@@ -35,20 +35,26 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
 
   useEffect(() => {
 
-    if (produtor)
+    if (produtor) {    
+      let formData = produtor;  
       produtor.fazendas.forEach((fazenda, i) => {
-        // form.setFields({
-        //   name: 'fazenda ' + i,
-        //   values: fazenda
-        // })
+        formData['fazenda ' + i] = fazenda;
       });
 
+      form.setFieldsValue(formData);
+    }
+      
   }, [produtor]);
 
-  const handleVoltar = () => {
+  const handleVoltar = (inserted = false) => {
+
+    if (inserted) {
+      message.destroy();
+      const hide = message.success('Informações cadastradas com sucesso!');
+      setTimeout(hide, 2000);
+    }
 
     setFormId(null);
-
     setRoute('Produtores');
 
   }
@@ -101,7 +107,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         if (response.status === 200) {
           dispatch(produtoresActions.ADD_PRODUTOR(response.data));
 
-          handleVoltar();
+          handleVoltar(true);
         }
         else if (response.status === 303) {
           message.destroy();
@@ -116,7 +122,7 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
         if (response.status === 200) {
           dispatch(produtoresActions.UPDATE_PRODUTOR(response.data));
 
-          handleVoltar();
+          handleVoltar(true);
         }
       }
 
@@ -192,12 +198,11 @@ const AdicionarProdutores = ({ setRoute, formId, setFormId }) => {
               />
             </Row>
 
-            {fazendas.map((fazenda, i) =>
+            {fazendas.map((_, i) =>
               <FazendaForm
                 key={i}
                 index={i}
                 form={form}
-                fazenda={fazenda}
                 handleRemoverFazenda={handleRemoverFazenda}
               />)}
 

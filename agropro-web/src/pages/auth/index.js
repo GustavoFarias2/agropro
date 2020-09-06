@@ -29,7 +29,7 @@ const Auth = () => {
 
   const handleButtonClick = async (values) => {
 
-    const hide = message.loading('carregando...');
+    let hide = message.loading('carregando...');
     setLoading(true);
 
     if (title === 'Login') {
@@ -51,11 +51,13 @@ const Auth = () => {
         form.resetFields();
         
         setTitle('Login');
-        setLoading(true);   
+        setLoading(false);   
+
+        hide();
+        hide = message.success('Conta criada!');
+        setTimeout(hide, 2000);
 
       }
-
-      hide();
 
     }
 

@@ -4,10 +4,15 @@
 const Schema = use('Schema')
 
 class FazendaSchema extends Schema {
-  up () {
+  up() {
     this.create('fazendas', (table) => {
       table.increments()
-      table.integer('produtor_id').unsigned().references('id').inTable('produtors')
+      table
+        .integer('produtor_id')
+        .unsigned()
+        .references('id')
+        .inTable('produtors')
+        .onDelete('CASCADE')
       table.string('nome', 100).notNullable()
       table.string('cidade', 100).notNullable()
       table.string('estado', 20).notNullable()
@@ -19,7 +24,7 @@ class FazendaSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.drop('fazendas')
   }
 }
