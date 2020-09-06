@@ -9,7 +9,8 @@ import {
   Row,
   Col,
   Card,
-  Table
+  Table,
+  message
 } from 'antd';
 
 import tableColumns from '../../../assets/tableColumns';
@@ -50,8 +51,13 @@ const Produtores = ({ setRoute, setFormId }) => {
 
     const response = await api.delete('produtor/' + row.id);
 
-    if (response.status === 204)
-      dispatch(produtoresActions.REMOVE_PRODUTOR(row))
+    if (response.status === 204) {
+      dispatch(produtoresActions.REMOVE_PRODUTOR(row));
+
+      message.destroy();
+      const hide = message.success('Produtor removido');
+      setTimeout(hide, 1500);
+    }
 
   }
 
@@ -59,8 +65,13 @@ const Produtores = ({ setRoute, setFormId }) => {
 
     const response = await api.delete('fazenda/' + row.id);
 
-    if (response.status === 204)
-      dispatch(produtoresActions.REMOVE_FAZENDA(row))
+    if (response.status === 204) {
+      dispatch(produtoresActions.REMOVE_FAZENDA(row));
+
+      message.destroy();
+      const hide = message.success('Fazenda removida');
+      setTimeout(hide, 1500);
+    }
 
   }
 
